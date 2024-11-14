@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Hotel Booking</title>
+  </head>
+
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+    .chatbox {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      width: 300px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+      background: #fff;
+      display: none;
+      flex-direction: column;
+      height: 400px;
+    }
+    .chatbox-header {
+      background: #007bff;
+      color: #fff;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .chatbox-messages {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
+    .chatbox-input {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+    .chatbox-input input {
+      flex: 1;
+      border: none;
+      padding: 10px;
+    }
+    .chatbox-input button {
+      background: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+    #chat-button {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #007bff;
+      color: #fff;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+    
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+      }
+      to {
+        opacity: 1;
+      }
+    }
+    
+    .fade-in {
+      animation: fadeIn 0.5s ease-in;
+    }
+  </style>
+  <body>
+    <header>
+      <h1>Welcome to Hotel Booking</h1>
+      {% if session.username %}
+        <p>Hello, {{ session.username }}!</p>
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <a href="{{ url_for('logout') }}">Logout</a>
+      {% else %}
+        <a href="{{ url_for('login') }}">Login</a>
+        <a href="{{ url_for('register') }}">Register</a>
+      {% endif %}
+    </header>
+    <main>
+      <p>Book your stay at the best hotels around the world.</p>
+      <p>Enjoy luxurious amenities and world-class service.</p>
+    </main>
+
+    <button id="chat-button">Chat</button>
+    <div class="chatbox" id="chatbox">
+      <div class="chatbox-header" onclick="toggleChatbox()">Chatbot</div>
+      <div class="chatbox-messages" id="chatbox-messages"></div>
+      <div class="chatbox-input">
+        <input type="text" id="chat-input" placeholder="Type your message..." />
+        <button onclick="sendMessage()">Send</button>
+      </div>
+    </div>
+
+    <script>
+      const chatbox = document.getElementById('chatbox')
+      const chatButton = document.getElementById('chat-button')
+      const messagesContainer = document.getElementById('chatbox-messages')
+      const inputField = document.getElementById('chat-input')
+      
+      function toggleChatbox() {
+        chatbox.style.display = chatbox.style.display === 'none' ? 'flex' : 'none'
+      }
+      
+      chatButton.addEventListener('click', () => {
+        chatbox.style.display = 'flex'
+        chatButton.style.display = 'none'
+      })
+      
+      inputField.addEventListener('keypress', (event) => {
+        if (event.key === 'Enter') {
+          event.preventDefault() // Prevent default form submission
+          sendMessage()
+        }
+      })
+      
+      function sendMessage() {
+        const userMessage = inputField.value
+        if (userMessage.trim()) {
+          appendMessage('You', userMessage)
+          fetch('/send_message', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ message: userMessage })
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              if (data.length > 0) {
+                data.forEach((msg) => appendMessage('Walton', msg.text))
+              } else {
+                appendMessage('Walton', 'No response from server.')
+              }
+            })
+          inputField.value = ''
+        }
+      }
+      
+      function appendMessage(sender, message) {
+        const messageDiv = document.createElement('div')
+        messageDiv.textContent = `${sender}: ${message}`
+        messageDiv.classList.add('fade-in') // Apply fade-in animation
+        messagesContainer.appendChild(messageDiv)
+        messagesContainer.scrollTop = messagesContainer.scrollHeight
+      }
+    </script>
+  </body>
+</html>

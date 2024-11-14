@@ -1,0 +1,159 @@
+version: "3.0"
+
+stories:
+- story: ask_available_rooms
+  steps:
+  - intent: ask_available_rooms
+  - action: utter_available_rooms
+  - action: utter_ask_more_help
+
+- story: ask_room_prices
+  steps:
+  - intent: ask_room_prices
+  - action: utter_room_prices
+  - action: utter_ask_more_help
+
+- story: ask_check_in_time
+  steps:
+  - intent: ask_check_in_time
+  - action: utter_check_in_time
+
+
+- story: ask_complimentary_breakfast
+  steps:
+  - intent: ask_complimentary_breakfast
+  - action: utter_complimentary_breakfast
+  - action: utter_ask_more_help
+
+- story: ask_wifi_workspace
+  steps:
+  - intent: ask_wifi_workspace
+  - action: utter_wifi_workspace
+  - action: utter_ask_more_help
+
+- story: ask_parking_availability
+  steps:
+  - intent: ask_parking_availability
+  - action: utter_parking_availability
+  - action: utter_ask_more_help
+
+- story: ask_airport_transportation
+  steps:
+  - intent: ask_airport_transportation
+  - action: utter_airport_transportation
+  - action: utter_ask_more_help
+
+- story: ask_discounts
+  steps:
+  - intent: ask_discounts
+  - action: utter_discounts
+  - action: utter_ask_more_help
+
+- story: ask_payment_methods
+  steps:
+  - intent: ask_payment_methods
+  - action: utter_payment_methods
+  - action: utter_ask_more_help
+
+- story: ask_installments
+  steps:
+  - intent: ask_installments
+  - action: utter_installments
+  - action: utter_ask_more_help
+
+- story: ask_fitness_center
+  steps:
+  - intent: ask_fitness_center
+  - action: utter_fitness_center
+  - action: utter_ask_more_help
+
+- story: ask_laundry_facilities
+  steps:
+  - intent: ask_laundry_facilities
+  - action: utter_laundry_facilities
+  - action: utter_ask_more_help
+
+- story: ask_nearby_attractions
+  steps:
+  - intent: ask_nearby_attractions
+  - action: utter_nearby_attractions
+  - action: utter_ask_more_help
+
+- story: ask_special_requests
+  steps:
+  - intent: ask_special_requests
+  - action: utter_special_requests
+  - action: utter_ask_more_help
+
+- story: ask_conference_rooms
+  steps:
+  - intent: ask_conference_rooms
+  - action: utter_conference_rooms
+  - action: utter_ask_more_help
+
+- story: ask_pet_policy
+  steps:
+  - intent: ask_pet_policy
+  - action: utter_pet_policy
+  - action: utter_ask_more_help
+
+- story: ask_security_deposit
+  steps:
+  - intent: ask_security_deposit
+  - action: utter_security_deposit
+  - action: utter_ask_more_help
+
+- story: ask_for_brochure
+  steps:
+  - intent: ask_for_brochure
+  - action: utter_brochure
+  - action: utter_ask_more_help
+
+- story: fallback
+  steps:
+  - intent: fallback
+  - action: utter_default
+
+
+- story: ask_single_room
+  steps:
+    - intent: ask_single_room
+    - action: utter_single_room
+    - action: utter_ask_more_help
+
+- story: ask_double_room
+  steps:
+    - intent: ask_double_room
+    - action: utter_double_room
+    - action: utter_ask_more_help
+
+- story: ask_family_room
+  steps:
+    - intent: ask_family_room
+    - action: utter_family_room
+    - action: utter_ask_more_help
+
+- story: ask_deluxe_room
+  steps:
+    - intent: ask_deluxe_room
+    - action: utter_deluxe_room
+    - action: utter_ask_more_help
+
+
+- story: ask_suite_room
+  steps:
+    - intent: ask_suite_room
+    - action: utter_suite_room
+    - action: utter_ask_more_help
+
+- story: fallback_story
+  steps:
+    - intent: nlu_fallback  # When Rasa doesn't understand
+    - action: utter_default  # Tell the user we didn't understand
+   
+
+- story: User asks about the hotel
+  steps:
+    - intent: about_hotel
+    - action: utter_about_hotel
+    

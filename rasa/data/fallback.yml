@@ -1,0 +1,8 @@
+intents:
+  - fallback  # Define the fallback intent
+
+responses:
+  utter_default:
+    - text: "I'm sorry, I didn't quite understand that. Could you please rephrase?"
+    - text: "I didn't catch that. Can you try asking in a different way?"
+    - text: "I'm here to help! Could you clarify your question?"

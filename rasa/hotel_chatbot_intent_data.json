@@ -1,0 +1,390 @@
+[
+    {
+        "text": "What rooms are available right now?",
+        "intent": "room_availability"
+    },
+    {
+        "text": "Can you list the available rooms?",
+        "intent": "room_availability"
+    },
+    {
+        "text": "Do you have any rooms open?",
+        "intent": "room_availability"
+    },
+    {
+        "text": "What types of rooms can I book?",
+        "intent": "room_availability"
+    },
+    {
+        "text": "Show me the available room options.",
+        "intent": "room_availability"
+    },
+    {
+        "text": "What rooms do you have available today?",
+        "intent": "room_availability"
+    },
+    {
+        "text": "Are there any vacant rooms?",
+        "intent": "room_availability"
+    },
+    {
+        "text": "What room types are currently open for booking?",
+        "intent": "room_availability"
+    },
+    {
+        "text": "How much does each room cost per night?",
+        "intent": "room_price"
+    },
+    {
+        "text": "Can you tell me the price per night for each room type?",
+        "intent": "room_price"
+    },
+    {
+        "text": "What are the rates for the rooms?",
+        "intent": "room_price"
+    },
+    {
+        "text": "What's the nightly rate for each room?",
+        "intent": "room_price"
+    },
+    {
+        "text": "How much would a night cost for each type of room?",
+        "intent": "room_price"
+    },
+    {
+        "text": "What are today\u2019s room rates?",
+        "intent": "room_price"
+    },
+    {
+        "text": "Could you give me the nightly prices for all room types?",
+        "intent": "room_price"
+    },
+    {
+        "text": "What is the check-in time?",
+        "intent": "check_in_time"
+    },
+    {
+        "text": "When can I check in?",
+        "intent": "check_in_time"
+    },
+    {
+        "text": "Could you tell me the check-in policy?",
+        "intent": "check_in_time"
+    },
+    {
+        "text": "What time is check-in?",
+        "intent": "check_in_time"
+    },
+    {
+        "text": "What time am I allowed to check in?",
+        "intent": "check_in_time"
+    },
+    {
+        "text": "When does check-in start?",
+        "intent": "check_in_time"
+    },
+    {
+        "text": "Is breakfast included?",
+        "intent": "complimentary_breakfast"
+    },
+    {
+        "text": "Do you offer complimentary breakfast?",
+        "intent": "complimentary_breakfast"
+    },
+    {
+        "text": "Is there free breakfast with the stay?",
+        "intent": "complimentary_breakfast"
+    },
+    {
+        "text": "Does the booking come with breakfast?",
+        "intent": "complimentary_breakfast"
+    },
+    {
+        "text": "What\u2019s the breakfast policy?",
+        "intent": "complimentary_breakfast"
+    },
+    {
+        "text": "Can I get free breakfast with my booking?",
+        "intent": "complimentary_breakfast"
+    },
+    {
+        "text": "Do your rooms have Wi-Fi and a workspace?",
+        "intent": "wifi_workspace"
+    },
+    {
+        "text": "Is there Wi-Fi and a work area in the rooms?",
+        "intent": "wifi_workspace"
+    },
+    {
+        "text": "Can I get Wi-Fi and a desk in the room?",
+        "intent": "wifi_workspace"
+    },
+    {
+        "text": "Does the room include internet access and a workspace?",
+        "intent": "wifi_workspace"
+    },
+    {
+        "text": "Do all rooms have internet and workspaces?",
+        "intent": "wifi_workspace"
+    },
+    {
+        "text": "Is Wi-Fi included, and can I work in the room?",
+        "intent": "wifi_workspace"
+    },
+    {
+        "text": "Is there parking available?",
+        "intent": "parking_availability"
+    },
+    {
+        "text": "Do you offer parking for guests?",
+        "intent": "parking_availability"
+    },
+    {
+        "text": "Can I park my car there?",
+        "intent": "parking_availability"
+    },
+    {
+        "text": "What are the parking options?",
+        "intent": "parking_availability"
+    },
+    {
+        "text": "Is guest parking provided?",
+        "intent": "parking_availability"
+    },
+    {
+        "text": "Is there secure parking at the hotel?",
+        "intent": "parking_availability"
+    },
+    {
+        "text": "Do you offer airport transportation?",
+        "intent": "airport_transportation"
+    },
+    {
+        "text": "Is there a shuttle to the airport?",
+        "intent": "airport_transportation"
+    },
+    {
+        "text": "Can I get a ride to the airport?",
+        "intent": "airport_transportation"
+    },
+    {
+        "text": "Does the hotel provide airport transport?",
+        "intent": "airport_transportation"
+    },
+    {
+        "text": "Can I arrange airport pickup?",
+        "intent": "airport_transportation"
+    },
+    {
+        "text": "Do you offer any discounts?",
+        "intent": "discounts_promotions"
+    },
+    {
+        "text": "Are there any current promotions?",
+        "intent": "discounts_promotions"
+    },
+    {
+        "text": "Can I get a discount on my booking?",
+        "intent": "discounts_promotions"
+    },
+    {
+        "text": "What discounts are available?",
+        "intent": "discounts_promotions"
+    },
+    {
+        "text": "Are there any seasonal promotions?",
+        "intent": "discounts_promotions"
+    },
+    {
+        "text": "Do you have discounts for first-time guests?",
+        "intent": "discounts_promotions"
+    },
+    {
+        "text": "What payment methods do you accept?",
+        "intent": "payment_methods"
+    },
+    {
+        "text": "Can I pay with a credit card?",
+        "intent": "payment_methods"
+    },
+    {
+        "text": "Do you take online payments?",
+        "intent": "payment_methods"
+    },
+    {
+        "text": "What are the accepted payment options?",
+        "intent": "payment_methods"
+    },
+    {
+        "text": "Can I pay using PayPal?",
+        "intent": "payment_methods"
+    },
+    {
+        "text": "What forms of payment do you allow?",
+        "intent": "payment_methods"
+    },
+    {
+        "text": "Can I pay in installments?",
+        "intent": "installments"
+    },
+    {
+        "text": "Is there an installment plan available?",
+        "intent": "installments"
+    },
+    {
+        "text": "Can I split my payment?",
+        "intent": "installments"
+    },
+    {
+        "text": "Do you offer payment plans?",
+        "intent": "installments"
+    },
+    {
+        "text": "Is it possible to pay in parts?",
+        "intent": "installments"
+    },
+    {
+        "text": "Do you have a fitness center?",
+        "intent": "fitness_center"
+    },
+    {
+        "text": "Is there a gym on-site?",
+        "intent": "fitness_center"
+    },
+    {
+        "text": "Can I work out at the hotel?",
+        "intent": "fitness_center"
+    },
+    {
+        "text": "Does the hotel have gym facilities?",
+        "intent": "fitness_center"
+    },
+    {
+        "text": "Are there exercise facilities?",
+        "intent": "fitness_center"
+    },
+    {
+        "text": "Are there laundry facilities on-site?",
+        "intent": "laundry_facilities"
+    },
+    {
+        "text": "Can I do laundry at the hotel?",
+        "intent": "laundry_facilities"
+    },
+    {
+        "text": "Do you offer laundry services?",
+        "intent": "laundry_facilities"
+    },
+    {
+        "text": "Is there a place for guests to do laundry?",
+        "intent": "laundry_facilities"
+    },
+    {
+        "text": "Are self-service laundry facilities available?",
+        "intent": "laundry_facilities"
+    },
+    {
+        "text": "Can you recommend nearby attractions?",
+        "intent": "nearby_attractions"
+    },
+    {
+        "text": "What are some things to do around here?",
+        "intent": "nearby_attractions"
+    },
+    {
+        "text": "Are there any attractions close by?",
+        "intent": "nearby_attractions"
+    },
+    {
+        "text": "What local places should I visit?",
+        "intent": "nearby_attractions"
+    },
+    {
+        "text": "Do you have recommendations for nearby restaurants?",
+        "intent": "nearby_attractions"
+    },
+    {
+        "text": "What are the best places to eat nearby?",
+        "intent": "nearby_attractions"
+    },
+    {
+        "text": "Can you help me arrange a surprise for a special occasion?",
+        "intent": "special_occasion"
+    },
+    {
+        "text": "I\u2019d like to plan a surprise, can you help?",
+        "intent": "special_occasion"
+    },
+    {
+        "text": "Can the hotel help with a special occasion?",
+        "intent": "special_occasion"
+    },
+    {
+        "text": "Is there any way to arrange a special surprise?",
+        "intent": "special_occasion"
+    },
+    {
+        "text": "Can someone assist with organizing a celebration?",
+        "intent": "special_occasion"
+    },
+    {
+        "text": "Do you have conference rooms available?",
+        "intent": "conference_rooms"
+    },
+    {
+        "text": "Is there event space for meetings?",
+        "intent": "conference_rooms"
+    },
+    {
+        "text": "Can I book a conference room?",
+        "intent": "conference_rooms"
+    },
+    {
+        "text": "What are the options for conference rooms?",
+        "intent": "conference_rooms"
+    },
+    {
+        "text": "Does the hotel offer rooms for events?",
+        "intent": "conference_rooms"
+    },
+    {
+        "text": "Can I bring my pet?",
+        "intent": "pet_policy"
+    },
+    {
+        "text": "Is the hotel pet-friendly?",
+        "intent": "pet_policy"
+    },
+    {
+        "text": "Are pets allowed?",
+        "intent": "pet_policy"
+    },
+    {
+        "text": "What\u2019s the policy on pets?",
+        "intent": "pet_policy"
+    },
+    {
+        "text": "Can I have a pet in the room?",
+        "intent": "pet_policy"
+    },
+    {
+        "text": "How much is the security deposit for pets?",
+        "intent": "pet_fee"
+    },
+    {
+        "text": "What\u2019s the cleaning fee for pets?",
+        "intent": "pet_fee"
+    },
+    {
+        "text": "Is there a pet deposit?",
+        "intent": "pet_fee"
+    },
+    {
+        "text": "What are the fees for bringing a pet?",
+        "intent": "pet_fee"
+    },
+    {
+        "text": "Do I have to pay extra for my pet?",
+        "intent": "pet_fee"
+    }
+]

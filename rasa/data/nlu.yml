@@ -1,0 +1,292 @@
+version: "3.0"
+
+nlu:
+
+  - intent: fallback
+    examples: |
+      - asdfasf
+      - unknown input
+      - something I don't understand
+
+  - intent: greet
+    examples: |
+      - hi
+      - hello
+      - hey
+
+     
+
+
+  - intent: goodbye
+    examples: |
+      - goodbye
+      - good bye
+      - byee
+      - bye
+
+
+
+
+  - intent: thank_you
+    examples: |
+      - thank you
+      - thanks
+      - I appreciate it
+      - thank you very much
+      - thanks a lot
+      - many thanks
+      - I’m grateful
+      - I’m thankful
+      - much appreciated
+      - cheers
+
+
+  - intent: ask_available_rooms
+    examples: |
+      - What rooms are available?
+      - Can you tell me about available rooms?
+      - What types of rooms do you have?
+      - Are there any rooms free?
+      - Can you list the available room types?
+      - Which rooms can I book?
+      - What room options do you provide?
+      - Do you have any rooms available at the moment?
+      - Are rooms available for tonight?
+      - Do you have availability for this weekend?
+      - Can I book a room now?
+
+
+  - intent: ask_room_prices
+    examples: |
+      - How much is each room per night?
+      - What are the prices for the rooms?
+      - Can you provide nightly rates?
+      - What is the cost of staying in each room?
+      - How much does a night in your rooms cost?
+      - What are the current rates for the different rooms?
+      - Can you tell me the price for each room type?
+      - Are there any special rates for certain dates?
+      - Can you give me a price estimate for my dates?
+      - What’s the price for a room in July?
+      - How much for a room this weekend?
+
+
+  - intent: ask_check_in_time
+    examples: |
+      - What is the check-in time?
+      - When can I check in?
+      - At what time can I arrive?
+      - How early can I check in?
+      - What time do you allow check-ins?
+      - Is there a specific time for check-in?
+      - Can I check in before 3 PM?
+      - What’s the earliest check-in time?
+
+
+  - intent: ask_complimentary_breakfast
+    examples: |
+      - Do you offer complimentary breakfast?
+      - Is breakfast included?
+      - What is included in the breakfast?
+      - Can I get breakfast for free?
+      - Do you serve breakfast in the morning?
+      - Is there a breakfast option for guests?
+      - What’s the breakfast menu like?
+      - Is breakfast free for all guests?
+      - What time does breakfast start?
+
+
+  - intent: ask_wifi_workspace
+    examples: |
+      - Do the rooms have Wi-Fi?
+      - Is there a workspace in the rooms?
+      - Can I access the internet in my room?
+      - Is Wi-Fi included with the room?
+      - Are there workspaces available in the hotel?
+      - Do you provide internet access for guests?
+      - Is the Wi-Fi fast?
+      - Do you have a business center?
+      - Is there a desk or chair in the room for working?
+
+
+  - intent: ask_parking_availability
+    examples: |
+      - Is parking available?
+      - Do you have parking facilities?
+      - Can I park my car at the hotel?
+      - Is there a charge for parking?
+      - Are there secure parking options?
+      - How do I arrange parking for my stay?
+      - Is parking free?
+      - Can I reserve a parking space in advance?
+      - Is parking valet available?
+
+
+  - intent: ask_airport_transportation
+    examples: |
+      - Do you offer airport transportation?
+      - Can you arrange a ride to the airport?
+      - Is there a shuttle service to the airport?
+      - How can I get to the airport from here?
+      - What transportation options do you have for the airport?
+      - Can I book airport transfers through you?
+      - Is there a private car service available to the airport?
+
+
+  - intent: ask_discounts
+    examples: |
+      - Do you have any discounts or promotions?
+      - Are there any special offers available?
+      - Can I get a discount on my booking?
+      - What promotions are currently active?
+      - Are there deals for first-time guests?
+      - Do you offer seasonal discounts?
+
+  - intent: ask_payment_methods
+    examples: |
+      - What payment methods do you accept?
+      - Can I pay with a credit card?
+      - Do you accept PayPal?
+      - How can I pay for my stay?
+      - Is cash accepted for payments?
+      - What forms of payment do you take?
+
+  - intent: ask_installments
+    examples: |
+      - Can I pay in installments?
+      - Do you offer payment plans?
+      - Is it possible to split the payment?
+      - What are the conditions for installment payments?
+      - Can I pay in parts over time?
+      - Are there any financing options available?
+
+  - intent: ask_fitness_center
+    examples: |
+      - Do you have a fitness center?
+      - Is there a gym in the hotel?
+      - Can I work out during my stay?
+      - What fitness facilities do you offer?
+      - Are there exercise rooms available for guests?
+      - Is a gym available on-site?
+
+  - intent: ask_laundry_facilities
+    examples: |
+      - Are there laundry facilities on-site?
+      - Can I do my laundry here?
+      - Do you provide laundry services?
+      - Is there a washing machine available for guests?
+      - Can I send my laundry out for cleaning?
+      - What laundry services do you offer?
+
+  - intent: ask_nearby_attractions
+    examples: |
+      - Can you recommend nearby attractions?
+      - What can I do around here?
+      - Are there any points of interest nearby?
+      - What is there to see in the area?
+      - Can you suggest places to visit locally?
+      - What are the must-see attractions close to the hotel?
+
+  - intent: ask_special_requests
+    examples: |
+      - Can you help me arrange a surprise?
+      - I want to plan something special.
+      - Can I request something for my stay?
+      - Is it possible to have special arrangements made?
+      - How can I organize a special event during my stay?
+      - Can you assist with special requests?
+
+  - intent: ask_conference_rooms
+    examples: |
+      - Do you have conference rooms?
+      - Can I book an event space?
+      - Are meeting rooms available for hire?
+      - What facilities do you have for conferences?
+      - Can I use a conference room for a meeting?
+      - Do you offer spaces for events or gatherings?
+
+  - intent: ask_pet_policy
+    examples: |
+      - Can I bring my pet?
+      - What is your pet policy?
+      - Are pets allowed in the hotel?
+      - Can I have my dog with me during my stay?
+      - What are the rules for bringing pets?
+      - Is there a fee for having pets in the room?
+
+  - intent: ask_security_deposit
+    examples: |
+      - How much is the security deposit for pets?
+      - What are the cleaning fees for pets?
+      - Is there a deposit required upon check-in?
+      - What is the total security deposit amount?
+      - Are there any additional charges for security deposits?
+      - How does the security deposit work?
+
+  - intent: ask_for_brochure
+    examples: |
+      - Can I see a brochure?
+      - Where can I find your brochure?
+      - Do you have a digital brochure I can view?
+      - Is there a link to your brochure?
+      - Can I get a copy of your brochure?
+      - Where is the brochure located?
+
+  - intent: ask_single_room
+    examples: |
+      - Tell me about the Single Room.
+      - What does the Single Room offer?
+      - Do you have a Single Room available?
+      - Can you give details about the Single Room?
+      - What are the features of a Single Room?
+      - Is the Single Room suitable for a business trip?
+      - What’s the size of the Single Room?
+
+  - intent: ask_double_room
+    examples: |
+      - Tell me about the Double Room.
+      - What amenities are in the Double Room?
+      - Do you have a Double Room available?
+      - Can you give details about the Double Room?
+      - What's included in the Double Room?
+      - Is the Double Room good for a couple or friends?
+      - What size is the Double Room?
+
+  - intent: ask_family_room
+    examples: |
+      - Tell me about the Family Room.
+      - What does the Family Room include?
+      - Do you offer a Family Room?
+      - What are the features of the Family Room?
+      - Can I book a Family Room?
+      - Is the Family Room equipped for kids?
+      - What’s the capacity of the Family Room?
+
+  - intent: ask_deluxe_room
+    examples: |
+      - Tell me about the Deluxe Room.
+      - What amenities does the Deluxe Room offer?
+      - Do you have a Deluxe Room available?
+      - Can you give details about the Deluxe Room?
+      - What's included in a Deluxe Room?
+      - Does the Deluxe Room have a view?
+
+  - intent: ask_suite_room
+    examples: |
+      - Tell me about the Suite.
+      - What does the Suite include?
+      - Do you offer Suites?
+      - What amenities are in the Suite?
+      - Can I book a Suite?
+      - Does the Suite come with a living room?
+
+
+  - intent: about_hotel
+    examples: |
+      - Tell me about the hotel
+      - Can you describe the hotel?
+      - What can you tell me about your hotel?
+      - Give me some information about the hotel
+      - What’s special about the hotel?
+      - Where is the hotel located?
+

@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manual Booking</title>
+    <script>
+        // This function will fetch available rooms based on the selected room type
+        function fetchAvailableRooms() {
+            var roomType = document.getElementById("room_type").value;
+            var roomSelect = document.getElementById("room_number");
+
+            // Clear current room numbers
+            roomSelect.innerHTML = "";
+
+            // Fetch available rooms for selected room type
+            fetch("/admin/get_available_rooms?room_type=" + roomType)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.rooms.length > 0) {
+                        data.rooms.forEach(function(room) {
+                            // Add each available room to the dropdown
+                            var option = document.createElement("option");
+                            option.value = room.id;
+                            option.textContent = "Room " + room.room_number;
+                            roomSelect.appendChild(option);
+                        });
+                    } else {
+                        var option = document.createElement("option");
+                        option.textContent = "No rooms available";
+                        option.disabled = true;
+                        roomSelect.appendChild(option);
+                    }
+                })
+                .catch(error => console.log("Error fetching available rooms: ", error));
+        }
+
+        // Prevent selecting past dates
+        window.onload = function() {
+            var today = new Date().toISOString().split("T")[0];
+            document.getElementById("start_date").setAttribute("min", today);
+        };
+    </script>
+</head>
+<body>
+    <h1>Manual Booking</h1>
+
+    <form method="POST" action="{{ url_for('manual_booking') }}">
+        <!-- Dropdown for room type -->
+        <label for="room_type">Select Room Type</label>
+        <select id="room_type" name="room_type" onchange="fetchAvailableRooms()" required>
+            <option value="" disabled selected>Select Room Type</option>
+            <option value="Standard">Standard</option>
+            <option value="Double">Double</option>
+            <option value="Family">Family</option>
+            <option value="Deluxe">Deluxe</option>
+            <option value="Suite">Suite</option>
+        </select>
+        <br><br>
+
+        <!-- Dropdown for room number (dynamically populated) -->
+        <label for="room_number">Select Room</label>
+        <select id="room_number" name="room_number" required>
+            <option value="" disabled selected>Select Room</option>
+        </select>
+        <br><br>
+
+        <!-- Date fields -->
+        <label for="start_date">Start Date</label>
+        <input type="date" id="start_date" name="start_date" required>
+        <br><br>
+
+        <label for="end_date">End Date</label>
+        <input type="date" id="end_date" name="end_date" required>
+        <br><br>
+
+        <!-- Guest name -->
+        <label for="guest_name">Guest Name</label>
+        <input type="text" id="guest_name" name="guest_name" required>
+        <br><br>
+
+        <!-- Book Button -->
+        <button type="submit">Book</button>
+    </form>
+
+    {% if rooms_by_type %}
+        <h2>Available Rooms</h2>
+        <ul>
+            {% for room_type, rooms in rooms_by_type.items() %}
+                <li>{{ room_type }}: 
+                    <ul>
+                        {% for room in rooms %}
+                            <li>Room {{ room.room_number }} - Price: ${{ room.price }} - Status: {{ room.status }}</li>
+                        {% endfor %}
+                    </ul>
+                </li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+</body>
+</html>

@@ -1,0 +1,313 @@
+actions:
+  - action_default_fallback  # This is the default fallback action if no intent is matched
+  - action_restart  # Optional action to restart the conversation
+
+responses:
+  utter_default:
+    - text: "Sorry, I didn't quite catch that. Can you please rephrase?"
+    - text: "I didn’t understand. Could you try again?"
+    - text: "Apologies, I didn’t get that. Could you clarify?"
+    - text: "Hmm, I’m not sure I understood. Could you say that in another way?"
+    - text: "I didn’t catch that. Can you explain a bit more?"
+    - text: "I’m sorry, but I didn’t quite follow. Could you try rephrasing?"
+    - text: "Could you repeat that? I didn’t quite get it."
+    - text: "My apologies, I’m having trouble understanding. Could you say it differently?"
+    - text: "I’m not sure I follow. Could you please elaborate?"
+    - text: "I didn’t understand that. Could you try wording it differently?"
+    - text: "Sorry, I’m a bit confused. Could you explain that again?"
+    - text: "I missed that. Can you provide more details or rephrase?"
+    - text: "I’m not sure what you mean. Could you clarify?"
+    - text: "Can you say that another way? I’m having trouble understanding."
+
+
+  utter_greet:
+    - text: "My Name is Walton! How can I assist you today?"
+    - text: "Hi there! What can I help you with?"
+    - text: "Hello! How can I assist you today?"
+    - text: "Welcome! What information can I provide for you?"
+    - text: "Greetings! How may I assist you on your journey?"
+    - text: "Hey! I'm here to help with any questions you have."
+
+  utter_goodbye:
+    - text: "Goodbye! Have a great day!"
+    - text: "See you later! If you have any more questions, feel free to ask."
+    - text: "Farewell! Don’t hesitate to return if you need assistance."
+    - text: "Take care! I hope to assist you again soon."
+    - text: "Goodbye! Enjoy your day ahead!"
+    - text: "Thanks for chatting! See you next time!"
+
+  utter_thank_you:
+    - text: "You're welcome! If you need anything else, just let me know."
+    - text: "My pleasure! I'm here to help."
+    - text: "No problem at all! If you have more questions, feel free to ask."
+    - text: "Glad to help! Let me know if there's anything more I can do."
+    - text: "You're very welcome! I'm here whenever you need assistance."
+    - text: "Happy to help! If anything else comes up, just ask."
+
+
+  utter_check_in_time:
+    - text: "Check-in is flexible. You get 24 hours plus a 1-hour allowance from your check-in time."
+    - text: "Our check-in process is quite flexible, with a 24-hour allowance."
+    - text: "You can check in at your convenience within a 24-hour window."
+    - text: "We offer a flexible check-in policy—24 hours with an extra hour included."
+    - text: "Feel free to check in anytime within a 24-hour timeframe!"
+    - text: "Check-in is designed to be convenient. You have a full 24 hours plus an hour."
+
+  utter_complimentary_breakfast:
+    - text: "Yes, complimentary breakfast is available. Here’s the menu for today."
+    - text: "Absolutely! We offer a complimentary breakfast every morning."
+    - text: "Yes, breakfast is on the house! Would you like to see today's menu?"
+    - text: "Of course! We provide a complimentary breakfast to all our guests."
+    - text: "Yes, enjoy a complimentary breakfast during your stay with us!"
+    - text: "Certainly! Our complimentary breakfast includes a variety of options."
+
+  utter_wifi_workspace:
+    - text: "Yes, all rooms include complimentary high-speed Wi-Fi. Most rooms have a dedicated workspace, and our suites offer extra office space."
+    - text: "You’ll be pleased to know that all rooms come with free high-speed Wi-Fi."
+    - text: "Definitely! High-speed Wi-Fi is available in all rooms, along with workspace options."
+    - text: "Absolutely! Our Wi-Fi is complimentary and high-speed in every room."
+    - text: "Yes, we provide high-speed Wi-Fi free of charge in all accommodations."
+    - text: "Rest assured, our rooms are equipped with free Wi-Fi and dedicated workspaces."
+
+  utter_parking_availability:
+    - text: "Yes, secure parking is available for all guests. We offer self-parking and valet options, with an additional fee depending on the room rate."
+    - text: "Parking is available! We provide both self-parking and valet services."
+    - text: "Yes, we have secure parking options for all our guests!"
+    - text: "Certainly! You can choose between self-parking and valet services."
+    - text: "Yes, we offer parking for guests, including self-park and valet options."
+    - text: "There’s secure parking available! Valet and self-parking are both options."
+
+  utter_airport_transportation:
+    - text: "We don’t offer direct airport transportation, but our receptionist can assist you in arranging a ride."
+    - text: "Unfortunately, we don’t provide airport transport directly, but we can help arrange it."
+    - text: "We do not have direct transportation to the airport, but we can help you find a ride."
+    - text: "We can’t arrange airport transportation directly, but our staff can assist you."
+    - text: "While we don’t provide direct transportation, our team can help you book a ride."
+    - text: "We don’t have shuttle service to the airport, but we can assist with ride arrangements."
+
+  utter_discounts:
+    - text: "Yes, we offer discounts for first-time customers. Seasonal discounts are also available around April and May for summer."
+    - text: "Definitely! First-time guests can enjoy special discounts, plus seasonal offers in spring."
+    - text: "Absolutely, we provide discounts for new customers and seasonal deals during springtime."
+    - text: "Yes, new guests receive discounts, and we also have seasonal promotions!"
+    - text: "We do offer discounts for first-time visitors, especially during the spring season."
+    - text: "Yes, keep an eye out for first-time customer discounts and spring sales!"
+
+  utter_payment_methods:
+    - text: "We accept cash, credit cards, online banking, PayPal, and Visa."
+    - text: "Payment can be made using cash, credit cards, and PayPal."
+    - text: "We accept various payment methods, including credit cards and online banking."
+    - text: "You can pay with cash, credit cards, or through PayPal."
+    - text: "We take several forms of payment, including cash and major credit cards."
+    - text: "Payment options include credit cards, cash, and online banking services."
+
+  utter_installments:
+    - text: "Yes, installment plans are available for stays of 5 days or longer. For Deluxe and Suite rooms, installments are available for stays of 3 days or longer."
+    - text: "Certainly! You can opt for installment plans for longer stays."
+    - text: "Yes, we offer installment options for stays of five nights or more."
+    - text: "For extended stays, we have payment plans available."
+    - text: "Absolutely! Installments are an option for stays of 5 days or more."
+    - text: "Yes, you can choose to pay in installments for stays exceeding 5 days."
+
+  utter_fitness_center:
+    - text: "No, we don’t have a fitness center, but our receptionist can help you find one nearby."
+    - text: "Unfortunately, we don't have a gym, but we can recommend local fitness centers."
+    - text: "We don’t offer a fitness center on-site, but nearby options are available."
+    - text: "Sadly, we don’t have a gym, but our staff can point you to one nearby."
+    - text: "No fitness center here, but we can assist you in finding one close by."
+    - text: "Regrettably, we lack a gym, but we can help you locate a nearby facility."
+
+  utter_laundry_facilities:
+    - text: "Yes, we have both self-service laundry facilities and dry-cleaning options. Please refer to your in-room guide or ask the front desk for more information."
+    - text: "We provide laundry facilities, including both self-service and dry cleaning."
+    - text: "Certainly! Our laundry services include self-service options and dry cleaning."
+    - text: "Yes, you can access laundry services, both self-serve and dry cleaning available."
+    - text: "We have laundry facilities for self-service and a dry-cleaning option too!"
+    - text: "You can use our laundry facilities, which include self-service and dry cleaning."
+
+  utter_nearby_attractions:
+    - text: "We’re close to popular spots like Mangrove Beach, the Boardwalk, The Sun Roof Mall, and a variety of beachside restaurants."
+    - text: "Nearby attractions include Mangrove Beach, local shops, and beachside dining."
+    - text: "You’ll find many attractions close by, including beautiful beaches and shopping areas."
+    - text: "We are situated near popular attractions such as the Boardwalk and various restaurants."
+    - text: "Explore nearby attractions like The Sun Roof Mall and Mangrove Beach!"
+    - text: "Don’t miss local highlights, including beachside dining and the Boardwalk."
+
+  utter_special_requests:
+    - text: "I can notify our receptionist, who will help you plan this special surprise with our staff."
+    - text: "Certainly! I’ll pass along your special requests to the front desk."
+    - text: "No problem! Our staff will be informed of your special requests."
+    - text: "I’ll let the receptionist know about your special requests to ensure they’re met."
+    - text: "I can help communicate your special requests to our staff."
+    - text: "Absolutely! I’ll notify our team to assist with your special requests."
+
+
+  utter_pet_policy:
+    - text: "We allow pets in Family, Deluxe, and Suite rooms only. Pets must be potty-trained or wear diapers. There’s a required cleaning fee, and a security deposit must be provided. The security deposit will be withheld if there’s any damage or mess caused by the pet."
+    - text: "Pets are welcome in Family, Deluxe, and Suite rooms. Please ensure they’re potty-trained."
+    - text: "We accept pets in specific room types, including Deluxe and Suite. A cleaning fee applies."
+    - text: "Pets can stay in Family and Deluxe rooms. Please follow our pet policies."
+    - text: "Pets are permitted in select rooms, including Deluxe. Ensure they are trained."
+    - text: "We have a pet-friendly policy for specific room types. Please check with us for details."
+
+  utter_security_deposit:
+    - text: "The cleaning fee is $50 and the security deposit is $200."
+    - text: "A cleaning fee of $50 applies, with a security deposit of $200 required."
+    - text: "You’ll need to pay a cleaning fee of $50, along with a $200 security deposit."
+    - text: "The security deposit is $200, and the cleaning fee is set at $50."
+    - text: "For your stay, a $50 cleaning fee and a $200 security deposit will be required."
+    - text: "There’s a $200 security deposit and a cleaning fee of $50 that you'll need to cover."
+
+  utter_brochure:
+    - text: "You can view our brochure [here](http://your-flask-page.com/brochure)."
+    - text: "Check out our brochure [here](http://your-flask-page.com/brochure) for more information."
+    - text: "Here’s the link to our brochure [here](http://your-flask-page.com/brochure)."
+    - text: "Feel free to browse our brochure [here](http://your-flask-page.com/brochure)."
+    - text: "You can access our brochure [here](http://your-flask-page.com/brochure)."
+    - text: "Take a look at our brochure [here](http://your-flask-page.com/brochure) for details."
+
+  utter_you_are_welcome:
+    - text: "You're welcome! If you have any more questions, feel free to ask."
+    - text: "Anytime! Just let me know if you need anything else."
+    - text: "You're welcome! I'm here to assist with any other inquiries."
+    - text: "Glad to help! Don't hesitate to reach out for more information."
+    - text: "You're welcome! If there's anything else you need, just let me know."
+    - text: "Of course! I'm here if you have any other questions."
+
+  utter_how_can_i_help:
+    - text: "Of course! What do you need help with?"
+    - text: "Sure! How can I assist you today?"
+    - text: "Absolutely! What assistance do you require?"
+    - text: "Certainly! What can I help you with right now?"
+    - text: "Yes! How may I assist you further?"
+    - text: "Definitely! What do you need help with today?"
+
+  utter_please_rephrase:
+    - text: "I'm sorry, I didn't quite get that. Could you please rephrase?"
+    - text: "I didn’t fully understand. Can you rephrase that for me?"
+    - text: "Unfortunately, I missed that. Would you mind rephrasing?"
+    - text: "I didn’t catch that clearly. Could you say it differently?"
+    - text: "My apologies! I need a bit more clarity—could you rephrase?"
+    - text: "It seems I didn’t grasp that. Could you try saying it another way?"
+
+  utter_booking_assistance:
+    - text: "I can help you with that! What type of room are you interested in?"
+    - text: "Of course! Let’s find the right room for you."
+    - text: "Absolutely! What kind of accommodation are you looking for?"
+    - text: "Sure! Which type of room would you like to book?"
+    - text: "Yes, I’m here to assist! What room type interests you?"
+    - text: "I’d be happy to help! What kind of room are you considering?"
+
+  utter_out_of_scope:
+    - text: "I'm sorry, but I can't help with that. I'm here to assist with your booking needs."
+    - text: "Unfortunately, that’s outside my capabilities. I can assist with bookings."
+    - text: "I apologize, but I can't provide assistance with that. I'm here for bookings."
+    - text: "I'm here to help with your booking inquiries, but that's outside my scope."
+    - text: "I’m afraid I can’t assist with that. My focus is on booking-related queries."
+    - text: "That’s beyond my abilities. However, I’m ready to assist with your booking needs."
+
+  utter_iamabot:
+    - text: "I am a bot designed to help you with your booking inquiries."
+    - text: "I’m a virtual assistant here to assist you with hotel bookings."
+    - text: "I’m a chatbot created to assist with all your booking questions."
+    - text: "I am a digital assistant designed specifically for booking help."
+    - text: "I’m here as your booking assistant to help with your inquiries."
+    - text: "I am an AI bot focused on helping you with your hotel bookings."
+
+  utter_room_prices:
+  - text: "To see our current room prices, please visit our [booking page](<link_to_booking_page>)."
+  - text: "For detailed room prices, check out our [booking page](<link_to_booking_page>)."
+  - text: "Please go to our [booking page](<link_to_booking_page>) for information on room prices."
+  - text: "You can view room prices on our [booking page](<link_to_booking_page>)."
+  - text: "For the latest room prices, please visit our [booking page](<link_to_booking_page>)."
+  - text: "To explore our room pricing options, please head to our [booking page](<link_to_booking_page>)."
+
+
+
+  utter_available_rooms:
+    - text: "We have a variety of room types available: single, double, family, deluxe, and suite. Let me know if you need more information about any of them!"
+    - text: "Our hotel features the following room types: single, double, family, deluxe, and suite. If you’d like details about a specific type, just ask!"
+    - text: "Available room types include: single, double, family, deluxe, and suite. Feel free to inquire about any particular room you’re interested in!"
+    - text: "You can choose from several room types: single, double, family, deluxe, and suite. If you have questions about any of these options, let me know!"
+    - text: "We offer a range of accommodations including single, double, family, deluxe, and suite rooms. Would you like to hear more about a specific one?"
+    - text: "Here at our hotel, we have single, double, family, deluxe, and suite room types. Please ask if you need further details on any of these!"
+
+  
+  utter_conference_rooms:
+    - text: "We have several conference rooms available for your meetings: Conference Room A (Top Floor, Skyline View), Conference Room B (Ground Floor, Beach View), Conference Room C (2nd Floor, Garden View), and Conference Room D (Inner, Corporate View)."
+    - text: "Our conference facilities include: 1) Conference Room A with a stunning skyline view on the top floor, 2) Conference Room B with a beach view on the ground floor, 3) Conference Room C overlooking the garden on the 2nd floor, and 4) Conference Room D with an inner corporate view."
+    - text: "You can choose from the following conference rooms: A) Conference Room A - Top Floor with Skyline View, B) Conference Room B - Ground Floor with Beach View, C) Conference Room C - 2nd Floor with Garden View, and D) Conference Room D - Inner Corporate View. Let us know if you’d like more information!"
+    - text: "For your next event, consider our conference rooms: 1) Conference Room A (Top Floor, Skyline View), 2) Conference Room B (Ground Floor, Beach View), 3) Conference Room C (2nd Floor, Garden View), and 4) Conference Room D (Inner Corporate View)."
+    - text: "We offer a range of conference rooms to suit your needs: Conference Room A with a skyline view, Conference Room B with beach access, Conference Room C with a lovely garden view, and Conference Room D designed for corporate events."
+    - text: "Explore our conference rooms: Conference Room A (Top Floor, Skyline View), Conference Room B (Ground Floor, Beach View), Conference Room C (2nd Floor, Garden View), and Conference Room D (Inner, Corporate View). Perfect for any gathering!"
+   
+   
+  utter_single_room:
+    - text: "Our single rooms offer a cozy, private stay, perfect for solo travelers."
+    - text: "Single rooms are ideal for those traveling alone, providing a comfortable and quiet atmosphere."
+    - text: "If you're traveling solo, our single rooms provide a peaceful and intimate setting."
+
+  utter_double_room:
+    - text: "Double rooms are ideal for couples or friends, offering a comfortable stay with two beds."
+    - text: "Our double rooms are perfect for two guests, with ample space and twin beds."
+    - text: "Enjoy a comfortable stay in one of our double rooms, perfect for two people."
+
+  utter_family_room:
+    - text: "Family rooms come with additional space for families and feature multiple beds."
+    - text: "Our family rooms are spacious, designed to accommodate the entire family with multiple beds."
+    - text: "Perfect for families, these rooms offer extra space and the convenience of multiple beds."
+
+  utter_deluxe_room:
+    - text: "Deluxe rooms offer extra amenities and more luxurious accommodations."
+    - text: "Our deluxe rooms provide a premium stay, featuring luxurious amenities and extra space."
+    - text: "Experience a higher level of comfort in our deluxe rooms, with added luxury features."
+
+  utter_suite_room:
+    - text: "Our suites are spacious and come with additional luxury features for an elevated stay."
+    - text: "Suites offer expansive spaces with luxury features and extra amenities for a truly indulgent experience."
+    - text: "Treat yourself to one of our suites, which offer spacious layouts and premium features for a superior stay."
+
+  utter_about_hotel:
+    - text: "Our hotel is a four-star establishment, perfectly located close to both the beach and the city. We also feature a renowned restaurant called 'Bree', offering an exceptional dining experience."
+    - text: "This is a four-star hotel, conveniently situated near the beach and city center. Our on-site restaurant, 'Bree', is a guest favorite."
+    - text: "Located just minutes from both the beach and the city, our four-star hotel is the perfect place to relax. Don’t miss our restaurant, 'Bree'!"
+    - text: "We offer a four-star experience with easy access to the beach and the city. Our restaurant 'Bree' is known for its delicious cuisine."
+    - text: "The hotel is a four-star property, ideally located near the beach and city. You’ll love dining at our restaurant, 'Bree'."
+    - text: "Enjoy a luxurious stay at our four-star hotel, just a short walk from the beach and city. Be sure to visit 'Bree', our signature restaurant."
+    - text: "Our four-star hotel combines comfort with convenience, being close to both the beach and city. 'Bree', our in-house restaurant, is a must-try."
+
+  utter_ask_more_help:
+    - text: "What else can I help you with?"
+    - text: "Is there anything else I can assist you with?"
+    - text: "Do you need help with anything else?"
+    - text: "Is there something else you’d like to know?"
+
+intents:
+  - greet
+  - goodbye
+  - thank_you
+  - ask_available_rooms
+  - ask_room_prices
+  - ask_check_in_time
+  - ask_complimentary_breakfast
+  - ask_wifi_workspace
+  - ask_parking_availability  # Add this line
+  - ask_airport_transportation
+  - ask_discounts
+  - ask_payment_methods
+  - ask_installments
+  - ask_fitness_center
+  - ask_laundry_facilities
+  - ask_nearby_attractions
+  - ask_special_requests
+  - ask_conference_rooms
+  - ask_pet_policy
+  - ask_security_deposit
+  - ask_for_brochure
+  - ask_single_room
+  - ask_double_room
+  - ask_family_room
+  - ask_deluxe_room
+  - ask_suite_room
+  - fallback
+  - about_hotel
