@@ -10,20 +10,37 @@
             var today = new Date().toISOString().split('T')[0];
             document.getElementById("start_date").setAttribute("min", today);
             document.getElementById("end_date").setAttribute("min", today);
-
+    
             // Update the minimum end date whenever the start date changes
             document.getElementById("start_date").addEventListener("change", function() {
                 var startDate = document.getElementById("start_date").value;
-                document.getElementById("end_date").setAttribute("min", startDate);
-
+                var minEndDate = new Date(startDate);
+                minEndDate.setDate(minEndDate.getDate() + 1); // Ensure at least one day after the start date
+                document.getElementById("end_date").setAttribute("min", minEndDate.toISOString().split('T')[0]);
+    
                 // Trigger prediction whenever the start date is changed
                 computePrediction();
             });
-
+    
+            // Validate the end date when it's changed to ensure it's after the start date
+            document.getElementById("end_date").addEventListener("change", function() {
+                var startDate = new Date(document.getElementById("start_date").value);
+                var endDate = new Date(document.getElementById("end_date").value);
+    
+                // If the end date is before or the same as the start date, alert the user
+                if (endDate <= startDate) {
+                    alert("End date must be after the start date.");
+                    // Reset end date to the minimum valid date
+                    var minEndDate = new Date(startDate);
+                    minEndDate.setDate(minEndDate.getDate() + 1);
+                    document.getElementById("end_date").value = minEndDate.toISOString().split('T')[0];
+                }
+            });
+    
             // Dynamically populate room types from backend
             var roomTypes = {{ room_types | tojson }};
             var roomTypeSelect = document.getElementById("room_type");
-
+    
             roomTypes.forEach(function(roomType) {
                 var option = document.createElement("option");
                 option.value = roomType;
@@ -31,12 +48,12 @@
                 roomTypeSelect.appendChild(option);
             });
         });
-
+    
         // Function to make prediction request
         function computePrediction() {
             var roomType = document.getElementById('room_type').value;
             var startDate = document.getElementById('start_date').value;
-
+    
             if (roomType && startDate) {
                 fetch('/predict', {
                     method: 'POST',
@@ -56,19 +73,19 @@
                 console.log("Please select both room type and start date.");
             }
         }
-
+    
         // Update available room numbers based on room type selection
         function updateRoomNumbers() {
             var roomType = document.getElementById('room_type').value;
             var url = '/book-room?room_type=' + roomType;
-
+    
             // Fetch room numbers from the backend based on selected room type
             fetch(url)
                 .then(response => response.json())
                 .then(data => {
                     var roomNumberSelect = document.getElementById('room_number');
                     roomNumberSelect.innerHTML = '<option value="" disabled selected>Select a room number</option>';
-
+    
                     if (data.room_numbers && data.room_numbers.length > 0) {
                         data.room_numbers.forEach(function(roomNumber) {
                             var option = document.createElement('option');
@@ -86,19 +103,19 @@
                 .catch(error => console.error('Error fetching room numbers:', error));
         }
     </script>
+    
 </head>
 <body>
     <h1>Book a Room</h1>
 
-    <!-- Flash messages for errors and success -->
     {% with messages = get_flashed_messages(with_categories=true) %}
-    {% if messages %}
-        <ul>
-        {% for category, message in messages %}
-            <li class="{{ category }}">{{ message }}</li>
-        {% endfor %}
-        </ul>
-    {% endif %}
+        {% if messages %}
+            {% for category, message in messages %}
+                <div class=" alert alert-{{category}}" role="alert">
+                    {{message}}
+                </div>
+            {% endfor %}
+        {% endif %}
     {% endwith %}
 
     <form method="POST" action="/book-room"> <!-- Ensure the action points to the correct backend route -->

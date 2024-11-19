@@ -95,6 +95,220 @@ def logout():
     flash('You have been logged out.')
     return redirect(url_for('login'))   
 
+model = joblib.load('model/occupancy_model.pkl')
+
+# Room type mapping
+room_type_mapping = {
+    'Single': 0,
+    'Double': 1,
+    'Family': 2,
+    'Suite': 3,
+    'Deluxe': 4
+}
+
+@app.route('/predict', methods=['POST'])
+def predict():
+    # Get data from the request
+    room_type = request.form.get('room_type')
+    date = request.form.get('date')
+
+    # Parse the date
+    year, month, day = map(int, date.split('-'))
+
+    # Check if room type is valid
+    if room_type not in room_type_mapping:
+        return jsonify({'error': 'Invalid room type'}), 400
+
+    # Prepare the data to predict
+    data_to_predict = pd.DataFrame({
+        'Year': [year],
+        'Month': [month],
+        'Day': [day],
+        'Room Type': [room_type]
+    })
+
+    # Map the room type
+    data_to_predict['Room Type'] = data_to_predict['Room Type'].map(room_type_mapping)
+
+    # Ensure the features are in the right order
+    features = data_to_predict[['Day', 'Month', 'Year', 'Room Type']]
+
+    # Make prediction
+    prediction = model.predict(features)[0]  # Single prediction for the room type
+
+    # Return the prediction result
+    return jsonify({'prediction': prediction})
+
+
+from flask import flash, redirect, url_for, render_template, request, session
+from datetime import datetime
+import requests
+
+@app.route('/manual-booking', methods=['GET', 'POST'])
+def manual_booking():
+    room_types = []
+    room_numbers = []
+
+    # Room type prices per day
+    room_type_prices = {
+        'Standard': 1000,
+        'Double': 1600,
+        'Family': 2500,
+        'Deluxe': 5000,
+        'Suite': 7500,
+        'Single': 800  # Ensure 'Single' is in the dictionary
+    }
+
+    if 'username' not in session or session['role'] != 'admin':
+        flash('You must be logged in as an admin to access this page.', 'error')
+        return redirect(url_for('login'))
+
+    print(f"Session Details - Username: {session.get('username')}, Role: {session.get('role')}")
+
+    if request.method == 'POST':
+        username = request.form['username']
+        room_type = request.form['room_type']
+        room_number = request.form['room_number']
+        start_date = request.form['start_date']
+        end_date = request.form['end_date']
+
+        print(f"Form Data - Username: {username}, Room Type: {room_type}, Room Number: {room_number}, Start Date: {start_date}, End Date: {end_date}")
+
+        # Process dates
+        current_date = datetime.now().date()
+        start_date_obj = datetime.strptime(start_date, '%Y-%m-%d').date()
+        end_date_obj = datetime.strptime(end_date, '%Y-%m-%d').date()
+
+        print(f"Start Date Object: {start_date_obj}, End Date Object: {end_date_obj}, Current Date: {current_date}")
+
+        if start_date_obj < current_date:
+            flash('Start date cannot be before today.', 'error')
+            return redirect(url_for('manual_booking'))
+
+        if end_date_obj < start_date_obj:
+            flash('End date cannot be before the start date.', 'error')
+            return redirect(url_for('manual_booking'))
+
+        # Fetch room_id based on room_type and room_number
+        cur = mysql.connection.cursor()
+        query = '''
+        SELECT id FROM rooms 
+        WHERE room_number = %s AND room_type = %s
+        '''
+        print(f"Executing query to fetch room_id: {query} with room_number={room_number} and room_type={room_type}")
+        cur.execute(query, (room_number, room_type))
+        room_id = cur.fetchone()
+
+        print(f"Room ID fetched: {room_id}")
+
+        if not room_id:
+            flash('The selected room does not exist.', 'error')
+            return redirect(url_for('manual_booking'))
+
+        room_id = room_id[0]
+
+        # Check for room availability
+        query = '''
+        SELECT * FROM bookings 
+        WHERE room_id = %s
+        AND (start_date <= %s AND end_date >= %s)
+        '''
+        cur.execute(query, (room_id, end_date, start_date))
+        conflict = cur.fetchone()
+
+        print(f"Conflict check result: {conflict}")
+
+        if conflict:
+            flash('The selected room is not available for the chosen dates.', 'error')
+            return redirect(url_for('manual_booking'))
+
+        # Fetch predicted occupancy rate
+        prediction_response = requests.post(url_for('predict', _external=True), data={
+            'room_type': room_type,
+            'date': start_date
+        })
+        prediction_data = prediction_response.json()
+
+        if 'error' in prediction_data:
+            flash('Could not retrieve prediction: ' + prediction_data['error'], 'error')
+            return redirect(url_for('book_room'))
+
+        occupancy_rate = prediction_data['prediction']
+
+
+        # Price adjustment logic
+        price_adjustment = 0
+        if 0 <= occupancy_rate <= 10:
+            price_adjustment = -0.20
+        elif 11 <= occupancy_rate <= 20:
+            price_adjustment = -0.10
+        elif 21 <= occupancy_rate <= 30:
+            price_adjustment = -0.05
+        elif 31 <= occupancy_rate <= 50:
+            price_adjustment = 0
+        elif 51 <= occupancy_rate <= 60:
+            price_adjustment = 0.05
+        elif 61 <= occupancy_rate <= 71:
+            price_adjustment = 0.10
+        elif 72 <= occupancy_rate <= 80:
+            price_adjustment = 0.15
+        elif 81 <= occupancy_rate <= 90:
+            price_adjustment = 0.15
+        elif 91 <= occupancy_rate <= 100:
+            price_adjustment = 0.25
+
+        # Calculate the total price
+        num_days = (end_date_obj - start_date_obj).days
+        if room_type in room_type_prices:
+            base_price_per_day = room_type_prices[room_type]
+            final_price = num_days * base_price_per_day * (1 + price_adjustment)
+        else:
+            flash('Invalid room type selected.', 'error')
+            return redirect(url_for('manual_booking'))
+
+        print(f"Calculated final price: {final_price}")
+
+        # Insert booking with correct price
+        try:
+            cur.execute(''' 
+                INSERT INTO bookings (username, room_id, start_date, end_date, final_price, status)
+                VALUES (%s, %s, %s, %s, %s, 'Ongoing')
+            ''', (username, room_id, start_date, end_date, final_price))
+            mysql.connection.commit()
+            print("Booking committed successfully")
+        except Exception as e:
+            print(f"Error committing to the database: {e}")
+            flash('There was an error committing the booking to the database.', 'error')
+            return redirect(url_for('manual_booking'))
+
+        cur.close()
+
+        flash(f'Booking for {username} completed successfully. Final price: {final_price}', 'success')
+        return redirect(url_for('admin_dashboard'))
+
+    if request.method == 'GET':
+        cur = mysql.connection.cursor()
+        cur.execute('SELECT username FROM users WHERE role = "user"')
+        users = [row[0] for row in cur.fetchall()]
+
+        cur.execute('SELECT DISTINCT room_type FROM rooms')
+        room_types = [row[0] for row in cur.fetchall()]
+
+        if 'room_type' in request.args:
+            room_type = request.args.get('room_type')
+            cur.execute('SELECT room_number FROM rooms WHERE room_type = %s', [room_type])
+            room_numbers = [row[0] for row in cur.fetchall()]
+            return jsonify({'room_numbers': room_numbers})
+
+        cur.close()
+
+    return render_template('manual_booking.html', users=users, room_types=room_types, room_numbers=room_numbers)
+
+
+
+
+
+
 
 
 
@@ -106,7 +320,7 @@ def book_room():
     
     # Default room type prices per day
     room_type_prices = {
-        'Standard': 1000,
+        'Single': 1000,
         'Double': 1600,
         'Family': 2500,
         'Deluxe': 5000,
@@ -233,49 +447,7 @@ def book_room():
 
     return render_template('book_room.html', room_types=room_types, room_numbers=room_numbers)
 
-model = joblib.load('model/occupancy_model.pkl')
 
-# Room type mapping
-room_type_mapping = {
-    'Single': 0,
-    'Double': 1,
-    'Family': 2,
-    'Suite': 3,
-    'Deluxe': 4
-}
-
-@app.route('/predict', methods=['POST'])
-def predict():
-    # Get data from the request
-    room_type = request.form.get('room_type')
-    date = request.form.get('date')
-
-    # Parse the date
-    year, month, day = map(int, date.split('-'))
-
-    # Check if room type is valid
-    if room_type not in room_type_mapping:
-        return jsonify({'error': 'Invalid room type'}), 400
-
-    # Prepare the data to predict
-    data_to_predict = pd.DataFrame({
-        'Year': [year],
-        'Month': [month],
-        'Day': [day],
-        'Room Type': [room_type]
-    })
-
-    # Map the room type
-    data_to_predict['Room Type'] = data_to_predict['Room Type'].map(room_type_mapping)
-
-    # Ensure the features are in the right order
-    features = data_to_predict[['Day', 'Month', 'Year', 'Room Type']]
-
-    # Make prediction
-    prediction = model.predict(features)[0]  # Single prediction for the room type
-
-    # Return the prediction result
-    return jsonify({'prediction': prediction})
 
 
 

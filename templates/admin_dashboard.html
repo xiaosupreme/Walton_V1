@@ -24,12 +24,12 @@
             <tbody>
                 {% for request in booking_requests %}
                 <tr>
-                    <td>{{ request[1] }}</td> <!-- Username -->
-                    <td>{{ request[2] }}</td> <!-- Room Number -->
-                    <td>{{ request[3] }}</td> <!-- Room Type -->
-                    <td>{{ request[4] }}</td> <!-- Start Date -->
-                    <td>{{ request[5] }}</td> <!-- End Date -->
-                    <td>{{ request[6] }}</td> <!-- Display the final price -->
+                    <td>{{ request[1] }}</td> 
+                    <td>{{ request[2] }}</td> 
+                    <td>{{ request[3] }}</td> 
+                    <td>{{ request[4] }}</td> 
+                    <td>{{ request[5] }}</td> 
+                    <td>{{ request[6] }}</td> 
             
                     {% if request[7] == 'enabled' %}
                         <td><form method="POST" action="{{ url_for('approve_booking', booking_request_id=request[0]) }}">
