@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book a Room</title>
+    <script>
+        // Ensure that the start date cannot be before today
+        document.addEventListener('DOMContentLoaded', function() {
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById("start_date").setAttribute("min", today);
+            document.getElementById("end_date").setAttribute("min", today);
+
+            // Update the minimum end date whenever the start date changes
+            document.getElementById("start_date").addEventListener("change", function() {
+                var startDate = document.getElementById("start_date").value;
+                document.getElementById("end_date").setAttribute("min", startDate);
+
+                // Trigger prediction whenever the start date is changed
+                computePrediction();
+            });
+
+            // Dynamically populate room types from backend
+            var roomTypes = {{ room_types | tojson }};
+            var roomTypeSelect = document.getElementById("room_type");
+
+            roomTypes.forEach(function(roomType) {
+                var option = document.createElement("option");
+                option.value = roomType;
+                option.textContent = roomType;
+                roomTypeSelect.appendChild(option);
+            });
+        });
+
+        // Function to make prediction request
+        function computePrediction() {
+            var roomType = document.getElementById('room_type').value;
+            var startDate = document.getElementById('start_date').value;
+
+            if (roomType && startDate) {
+                fetch('/predict', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    body: new URLSearchParams({ room_type: roomType, date: startDate })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.prediction) {
+                        console.log("Predicted occupancy for " + roomType + " on " + startDate + ": " + data.prediction.toFixed(2) + "%");
+                    } else if (data.error) {
+                        console.log("Error: " + data.error);
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            } else {
+                console.log("Please select both room type and start date.");
+            }
+        }
+
+        // Update available room numbers based on room type selection
+        function updateRoomNumbers() {
+            var roomType = document.getElementById('room_type').value;
+            var url = '/book-room?room_type=' + roomType;
+
+            // Fetch room numbers from the backend based on selected room type
+            fetch(url)
+                .then(response => response.json())
+                .then(data => {
+                    var roomNumberSelect = document.getElementById('room_number');
+                    roomNumberSelect.innerHTML = '<option value="" disabled selected>Select a room number</option>';
+
+                    if (data.room_numbers && data.room_numbers.length > 0) {
+                        data.room_numbers.forEach(function(roomNumber) {
+                            var option = document.createElement('option');
+                            option.value = roomNumber;
+                            option.textContent = "Room " + roomNumber;
+                            roomNumberSelect.appendChild(option);
+                        });
+                    } else {
+                        var option = document.createElement('option');
+                        option.value = "";
+                        option.textContent = "No rooms available";
+                        roomNumberSelect.appendChild(option);
+                    }
+                })
+                .catch(error => console.error('Error fetching room numbers:', error));
+        }
+    </script>
+</head>
+<body>
+    <h1>Book a Room</h1>
+
+    <!-- Flash messages for errors and success -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <ul>
+        {% for category, message in messages %}
+            <li class="{{ category }}">{{ message }}</li>
+        {% endfor %}
+        </ul>
+    {% endif %}
+    {% endwith %}
+
+    <form method="POST" action="/book-room"> <!-- Ensure the action points to the correct backend route -->
+        <!-- Room Type Selection -->
+        <label for="room_type">Room Type:</label>
+        <select name="room_type" id="room_type" required onchange="updateRoomNumbers()">
+            <option value="" disabled selected>Select a room type</option>
+        </select>
+
+        <!-- Room Number Selection -->
+        <label for="room_number">Room Number:</label>
+        <select name="room_number" id="room_number" required>
+            <option value="" disabled selected>Select a room number</option>
+        </select>
+
+        <!-- Start Date Selection -->
+        <label for="start_date">Start Date:</label>
+        <input type="date" name="start_date" id="start_date" required>
+
+        <!-- End Date Selection -->
+        <label for="end_date">End Date:</label>
+        <input type="date" name="end_date" id="end_date" required>
+
+        <button type="submit">Book</button>
+    </form>
+
+    <hr>
+
+    <!-- No separate prediction section needed -->
+</body>
+</html>
