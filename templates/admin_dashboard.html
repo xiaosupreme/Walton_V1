@@ -6,6 +6,7 @@
     <title>Admin Dashboard</title>
 </head>
 <body>
+    {% include 'navbar.html' %}
     <h1>Admin Dashboard</h1>
     <h2>Booking Requests</h2>
     {% if booking_requests %}
@@ -17,7 +18,7 @@
                     <th>Room Number</th>
                     <th>Start Date</th>
                     <th>End Date</th>
-                    <th>Final Price</th> <!-- Add this column -->
+                    <th>Final Price</th> 
                     <th>Actions</th>
                 </tr>
             </thead>

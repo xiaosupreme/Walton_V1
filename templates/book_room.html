@@ -106,6 +106,7 @@
     
 </head>
 <body>
+    {% include 'navbar.html' %}
     <h1>Book a Room</h1>
 
     {% with messages = get_flashed_messages(with_categories=true) %}
@@ -118,24 +119,24 @@
         {% endif %}
     {% endwith %}
 
-    <form method="POST" action="/book-room"> <!-- Ensure the action points to the correct backend route -->
-        <!-- Room Type Selection -->
+    <form method="POST" action="/book-room"> 
+        
         <label for="room_type">Room Type:</label>
         <select name="room_type" id="room_type" required onchange="updateRoomNumbers()">
             <option value="" disabled selected>Select a room type</option>
         </select>
 
-        <!-- Room Number Selection -->
+      
         <label for="room_number">Room Number:</label>
         <select name="room_number" id="room_number" required>
             <option value="" disabled selected>Select a room number</option>
         </select>
 
-        <!-- Start Date Selection -->
+   
         <label for="start_date">Start Date:</label>
         <input type="date" name="start_date" id="start_date" required>
 
-        <!-- End Date Selection -->
+       
         <label for="end_date">End Date:</label>
         <input type="date" name="end_date" id="end_date" required>
 
@@ -144,6 +145,6 @@
 
     <hr>
 
-    <!-- No separate prediction section needed -->
+ 
 </body>
 </html>
