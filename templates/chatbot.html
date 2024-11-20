@@ -93,23 +93,34 @@
 </style>
 
 <script>
+    const conversationId = "{{ conversation_id }}";  // Fetch the conversation_id from the backend (Flask session)
     const chatbox = document.getElementById("chatbox");
     const chatButton = document.getElementById("chat-button");
     const messagesContainer = document.getElementById("chatbox-messages");
     const inputField = document.getElementById("chat-input");
 
-    // Retrieve the conversation_id from the server-side (embedded in the page template)
-    const conversationId = "{{ conversation_id }}";  // Flask will render this from session
-
     // Open the chatbox on button click
     function openChat() {
         chatbox.style.display = "flex";
         chatButton.style.display = "none";  // Hide the chat button once chat is open
+        loadConversation();  // Load all previous conversation messages
     }
 
     // Toggle the visibility of the chatbox (close it when the header is clicked)
     function toggleChatbox() {
         chatbox.style.display = chatbox.style.display === "none" ? "flex" : "none";
+    }
+
+    // Load the entire conversation history when the page is loaded or chat is opened
+    function loadConversation() {
+        fetch("/get_conversation")
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(msg => {
+                    appendMessage(msg.sender, msg.message);
+                });
+            })
+            .catch(error => console.error('Error loading conversation:', error));
     }
 
     // Send the user's message to the Flask backend
@@ -133,9 +144,9 @@
             .then(data => {
                 if (data.length > 0) {
                     // Loop through Rasa's response and display each message
-                    data.forEach(msg => appendMessage("Bot", msg.text));
+                    data.forEach(msg => appendMessage("Walton", msg.text));
                 } else {
-                    appendMessage("Bot", "No response from server.");
+                    appendMessage("Walton", "No response from server.");
                 }
             })
             .catch(error => console.error('Error:', error));

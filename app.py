@@ -6,7 +6,7 @@ from flask_login import login_required, current_user
 import pandas as pd
 import joblib
 import requests 
-
+import uuid 
 from flask_cors import CORS
 
 
@@ -27,6 +27,7 @@ app.config['MYSQL_DB'] = 'hotel_booking'
 
 mysql = MySQL(app)
 
+
 @app.before_request
 def before_request():
   
@@ -36,30 +37,56 @@ def before_request():
     else:
         g.is_logged_in = False
         g.role = 'user' 
-
-
-
-@app.route('/')
-def index():
-    is_logged_in = 'user_id' in session
-    role = session.get('role', 'user')  
-
-    return render_template('index.html', is_logged_in=is_logged_in, role=role)
+        
+    if 'conversation_id' not in session:
+        session['conversation_id'] = str(uuid.uuid4())  
+    if 'messages' not in session:
+        session['messages'] = [] 
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
     user_message = request.json.get("message")
-    conversation_id = session.get('conversation_id')  
-    
+    conversation_id = session.get('conversation_id', str(uuid.uuid4()))
+
     if user_message:
-        
+        session['messages'].append({"sender": "You", "message": user_message})
+        session['conversation_id'] = conversation_id  
+
         response = requests.post(
             RASA_URL,
-            json={"sender": conversation_id, "message": user_message}  
+            json={"sender": conversation_id, "message": user_message}
         )
-        return jsonify(response.json()) 
+
+        rasa_response = response.json()
+
+        for msg in rasa_response:
+            session['messages'].append({"sender": "Walton", "message": msg.get("text")})
+
+        session.modified = True
+
+        return jsonify(rasa_response)
+    return jsonify({"error": "No message sent"})
+
+
+@app.route("/get_conversation")
+def get_conversation():
+    return jsonify(session.get('messages', []))
+
+@app.route('/')
+def index():
+
+    is_logged_in = 'user_id' in session
+    role = session.get('role', 'user')
     
-    return jsonify({"error": "No message sent"})  
+    if 'conversation_id' not in session:
+        session['conversation_id'] = str(uuid.uuid4()) 
+
+    conversation_id = session.get('conversation_id')
+    
+    return render_template('index.html', is_logged_in=is_logged_in, role=role, conversation_id=session['conversation_id'])
+
+
+
 
 
 @app.route('/login', methods=['GET', 'POST'])
