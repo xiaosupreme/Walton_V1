@@ -21,10 +21,11 @@
             {% endfor %}
         {% endif %}
     {% endwith %}
-    <!-- Form for Manual Booking -->
+ 
     <form method="POST" id="booking-form">
         <label for="username">Select User:</label>
         <select name="username" required>
+            <option value="">-select a user-</option>
             {% for user in users %}
                 <option value="{{ user }}">{{ user }}</option>
             {% endfor %}
@@ -33,14 +34,17 @@
 
         <label for="room_type">Select Room Type:</label>
         <select name="room_type" id="room_type" required>
+        <option value="">-select a room type-</option>
             {% for type in room_types %}
                 <option value="{{ type }}">{{ type }}</option>
             {% endfor %}
+            
         </select>
         <br>
 
         <label for="room_number">Select Room Number:</label>
         <select name="room_number" id="room_number" required>
+            <option value="">-select a room-</option>
             {% for number in room_numbers %}
                 <option value="{{ number }}">{{ number }}</option>
             {% endfor %}

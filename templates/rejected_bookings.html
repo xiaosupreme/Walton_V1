@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rejected Bookings</title>
+</head>
+<body>
+    {% include 'navbar.html' %}
+    <h1>Rejected Bookings</h1>
+
+    {% if rejected_bookings %}
+        <table>
+            <thead>
+                <tr>
+                    <th>Booking ID</th>
+                    <th>Username</th>
+                    <th>Room ID</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Final Price</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in rejected_bookings %}
+                <tr>
+                    <td>{{ booking[0] }}</td> <!-- Booking ID -->
+                    <td>{{ booking[1] }}</td> <!-- Username -->
+                    <td>{{ booking[2] }}</td> <!-- Room ID -->
+                    <td>{{ booking[3] }}</td> <!-- Start Date -->
+                    <td>{{ booking[4] }}</td> <!-- End Date -->
+                    <td>{{ booking[5] }}</td> <!-- Status -->
+                    <td>{{ booking[6] }}</td> <!-- Final Price -->
+                    <td>{{ booking[7] }}</td> <!-- Created At -->
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    {% else %}
+        <p>No rejected bookings found.</p>
+    {% endif %}
+</body>
+</html>
