@@ -16,6 +16,8 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 app.config['SESSION_TYPE'] = 'filesystem'
 
+RASA_URL = "http://localhost:5005/webhooks/rest/webhook"  
+
 CORS(app)
 
 app.config['MYSQL_HOST'] = 'localhost'
@@ -44,7 +46,20 @@ def index():
 
     return render_template('index.html', is_logged_in=is_logged_in, role=role)
 
- 
+@app.route("/send_message", methods=["POST"])
+def send_message():
+    user_message = request.json.get("message")
+    conversation_id = session.get('conversation_id')  
+    
+    if user_message:
+        
+        response = requests.post(
+            RASA_URL,
+            json={"sender": conversation_id, "message": user_message}  
+        )
+        return jsonify(response.json()) 
+    
+    return jsonify({"error": "No message sent"})  
 
 
 @app.route('/login', methods=['GET', 'POST'])

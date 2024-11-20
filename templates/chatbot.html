@@ -1,0 +1,163 @@
+<!-- Chatbot HTML Template -->
+<div id="chatbot-container">
+    <!-- Chat Button to open the chatbox -->
+    <button id="chat-button" onclick="openChat()">Chat</button>
+
+    <!-- Chatbox UI -->
+    <div class="chatbox" id="chatbox">
+        <div class="chatbox-header" onclick="toggleChatbox()">Chatbot</div>
+        <div class="chatbox-messages" id="chatbox-messages"></div>
+        <div class="chatbox-input">
+            <input type="text" id="chat-input" placeholder="Type your message..." />
+            <button onclick="sendMessage()">Send</button>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Basic Chatbox Styles */
+    body {
+        font-family: Arial, sans-serif;
+    }
+
+    .chatbox {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        width: 300px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        background: #fff;
+        display: none;
+        flex-direction: column;
+        height: 400px;
+    }
+
+    .chatbox-header {
+        background: #007bff;
+        color: #fff;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    .chatbox-messages {
+        flex: 1;
+        padding: 10px;
+        overflow-y: auto;
+    }
+
+    .chatbox-input {
+        display: flex;
+        border-top: 1px solid #ccc;
+    }
+
+    .chatbox-input input {
+        flex: 1;
+        border: none;
+        padding: 10px;
+    }
+
+    .chatbox-input button {
+        background: #007bff;
+        color: #fff;
+        border: none;
+        padding: 10px;
+        cursor: pointer;
+    }
+
+    #chat-button {
+        position: fixed;
+        bottom: 20px;
+        right: 20px;
+        background: #007bff;
+        color: #fff;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .fade-in {
+        animation: fadeIn 0.5s ease-in;
+    }
+</style>
+
+<script>
+    const chatbox = document.getElementById("chatbox");
+    const chatButton = document.getElementById("chat-button");
+    const messagesContainer = document.getElementById("chatbox-messages");
+    const inputField = document.getElementById("chat-input");
+
+    // Retrieve the conversation_id from the server-side (embedded in the page template)
+    const conversationId = "{{ conversation_id }}";  // Flask will render this from session
+
+    // Open the chatbox on button click
+    function openChat() {
+        chatbox.style.display = "flex";
+        chatButton.style.display = "none";  // Hide the chat button once chat is open
+    }
+
+    // Toggle the visibility of the chatbox (close it when the header is clicked)
+    function toggleChatbox() {
+        chatbox.style.display = chatbox.style.display === "none" ? "flex" : "none";
+    }
+
+    // Send the user's message to the Flask backend
+    function sendMessage() {
+        const userMessage = inputField.value;
+        if (userMessage.trim()) {
+            appendMessage("You", userMessage);
+
+            // Send the message to the Flask backend, which will forward it to Rasa
+            fetch("/send_message", {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({
+                    message: userMessage,
+                    conversation_id: conversationId  // Send the conversation_id in the request
+                })
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.length > 0) {
+                    // Loop through Rasa's response and display each message
+                    data.forEach(msg => appendMessage("Bot", msg.text));
+                } else {
+                    appendMessage("Bot", "No response from server.");
+                }
+            })
+            .catch(error => console.error('Error:', error));
+
+            inputField.value = "";  // Clear the input field
+        }
+    }
+
+    // Append a message to the chatbox
+    function appendMessage(sender, message) {
+        const messageDiv = document.createElement("div");
+        messageDiv.textContent = `${sender}: ${message}`;
+        messageDiv.classList.add("fade-in");  // Apply fade-in animation
+        messagesContainer.appendChild(messageDiv);
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;  // Scroll to the latest message
+    }
+
+    // Enable sending message on "Enter" key press
+    inputField.addEventListener("keypress", (event) => {
+        if (event.key === "Enter") {
+            event.preventDefault(); // Prevent default form submission
+            sendMessage();  // Send message on Enter key press
+        }
+    });
+</script>
