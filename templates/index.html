@@ -2,11 +2,20 @@
 <html>
 <head>
     <title>Welcome</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h1>Welcome, User!</h1>
+
+    <div class="content">
+    <div class="privacy-glass">
+        <h1>Welcome, User!</h1>
+    </div>
+    </div>
     {% include 'chatbot.html' %}
-    
+
+    <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
+        
 </body>
 </html>

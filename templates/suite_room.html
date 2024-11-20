@@ -4,16 +4,35 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suite Room</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h1>Suite Room</h1>
-    <p>Welcome to the Suite Room page. Here are the details:</p>
-    <ul>
-        <li>Price: $7500 per night</li>
-        <li>Features: Most luxurious, perfect for long stays with top-notch services.</li>
-        <li>Includes: Free Wi-Fi, air conditioning, personal concierge, luxury amenities.</li>
-    </ul>
-    <p><a href="{{ url_for('user_bookings') }}">Back to My Bookings</a></p>
+    
+    <div class="container">
+        <section class="room-page">
+
+            <div class="room-image">
+                <img src="{{ url_for('static', filename='assets/suite.jpg') }}" alt="Suite Room" />
+            </div>
+
+            <h1>Suite Room</h1>
+            <p>Welcome to the Suite Room page. Here are the details:</p>
+            
+            <div class="room-details">
+                <ul>
+                    <li><strong>Price:</strong> $7500 per night</li>
+                    <li><strong>Features:</strong> Most luxurious, perfect for long stays with top-notch services.</li>
+                    <li><strong>Includes:</strong> Free Wi-Fi, air conditioning, personal concierge, luxury amenities.</li>
+                </ul>
+            </div>
+
+            <div class="action-link">
+                <p><a href="{{ url_for('user_bookings') }}" class="btn-link">Back to My Bookings</a></p>
+            </div>
+        </section>
+    </div>
+    {% include 'chatbot.html' %}
+    <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
 </body>
 </html>

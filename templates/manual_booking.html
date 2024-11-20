@@ -4,9 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manual Booking</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
 </head>
 <body>
     {% include 'navbar.html' %}
+    <div class="content">
+    <div class="privacy-glass">
     <h1>Manual Booking</h1>
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
@@ -53,6 +57,8 @@
 
         <button type="submit">Create Booking</button>
     </form>
+    </div>
+    </div>
 
     <!-- JavaScript Section -->
     <script>
@@ -144,5 +150,9 @@
             console.log('End Date:', endDate.toISOString().split('T')[0]);
         });
     </script>
+    
+     <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
+     <button id="back-to-top" title="Go to top">&#8593; Back to Top</button>
+     <script src="{{ url_for('static', filename='js/back-to-top.js') }}"></script>
 </body>
 </html>

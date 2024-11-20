@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Book a Room</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+
     <script>
         // Ensure that the start date cannot be before today
         document.addEventListener('DOMContentLoaded', function() {
@@ -107,44 +109,52 @@
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h1>Book a Room</h1>
     {% include 'chatbot.html' %}
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            {% for category, message in messages %}
-                <div class=" alert alert-{{category}}" role="alert">
-                    {{message}}
-                </div>
-            {% endfor %}
-        {% endif %}
-    {% endwith %}
-
-    <form method="POST" action="/book-room"> 
+    <div class="content">
+        <div class="privacy-glass">
+        <h1>Book a Room</h1>
         
-        <label for="room_type">Room Type:</label>
-        <select name="room_type" id="room_type" required onchange="updateRoomNumbers()">
-            <option value="" disabled selected>Select a room type</option>
-        </select>
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% if messages %}
+                {% for category, message in messages %}
+                    <div class=" alert alert-{{category}}" role="alert">
+                        {{message}}
+                    </div>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
-      
-        <label for="room_number">Room Number:</label>
-        <select name="room_number" id="room_number" required>
-            <option value="" disabled selected>Select a room number</option>
-        </select>
+        <form method="POST" action="/book-room"> 
+            
+            <label for="room_type">Room Type:</label>
+            <select name="room_type" id="room_type" required onchange="updateRoomNumbers()">
+                <option value="" disabled selected>Select a room type</option>
+            </select>
 
-   
-        <label for="start_date">Start Date:</label>
-        <input type="date" name="start_date" id="start_date" required>
+        
+            <label for="room_number">Room Number:</label>
+            <select name="room_number" id="room_number" required>
+                <option value="" disabled selected>Select a room number</option>
+            </select>
 
-       
-        <label for="end_date">End Date:</label>
-        <input type="date" name="end_date" id="end_date" required>
+    
+            <label for="start_date">Start Date:</label>
+            <input type="date" name="start_date" id="start_date" required>
 
-        <button type="submit">Book</button>
-    </form>
+        
+            <label for="end_date">End Date:</label>
+            <input type="date" name="end_date" id="end_date" required>
 
-    <hr>
+            <button type="submit">Book</button>
+        </form>
 
+        <hr>
+        </div>
+    </div>
+
+    <button id="back-to-top" title="Go to top">&#8593; Back to Top</button>
+    <script src="{{ url_for('static', filename='js/back-to-top.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
  
 </body>
 </html>

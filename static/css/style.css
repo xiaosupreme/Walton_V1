@@ -1,0 +1,568 @@
+/* Global reset and box-sizing */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Global body styles */
+body {
+    position: relative;
+    background-color: #333; /* Fallback color */
+    background-image: url('/static/assets/background.jpg'); /* Background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    height: 100vh;
+    margin: 0;
+    transition: background-image 3s ease-in-out; /* Smooth transition for background image */
+    font-family: Arial, sans-serif;
+}
+
+/* Table Styling */
+.table {
+    width: 80%; /* Adjust width */
+    margin: 20px auto; /* Center horizontally */
+    border-collapse: collapse;
+    background-color: #222; /* Dark gray background */
+    color: white; /* White text for contrast */
+}
+
+.table th, .table td {
+    padding: 12px; /* Add padding */
+    text-align: center;
+    border-bottom: 1px solid #ddd; /* Light border between rows */
+}
+
+/* Table Header */
+.table th {
+    background-color: #333; /* Darker header background */
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* Table Row Styling */
+.table tr:nth-child(even) {
+    background-color: #444; /* Darker background for even rows */
+}
+
+/* Table Row Hover Effect */
+.table tbody tr:hover {
+    background-color: white;
+    color: black;
+    cursor: pointer;
+}
+
+/* Table Button Styling */
+.table button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+/* Button Hover and Focus States */
+.table button:hover {
+    opacity: 0.8;
+}
+
+.table button:focus {
+    outline: 2px solid #0056b3; /* Blue outline for focus */
+}
+
+/* Button Styles */
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-success:disabled {
+    background-color: #ccc;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+.btn-danger:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+.table td form {
+    display: inline-flex;
+    gap: 10px;
+    margin: 0;
+}
+
+/* Availability Text Color */
+.available {
+    color: green; /* Green for available */
+    font-weight: bold;
+}
+
+.unavailable {
+    color: red; /* Red for unavailable */
+    font-weight: bold;
+}
+
+/* General heading styling */
+h1, h2, h3 {
+    color: black;
+    font-family: 'Arial', sans-serif;  /* Modern font */
+    font-weight: bold;
+}
+
+/* Privacy Glass Effect */
+.privacy-glass {
+    background: rgba(255, 255, 255, 0.2); /* Lighter glass effect */
+    border-radius: 15px; /* Slightly more rounded corners */
+    padding: 40px 30px; /* Add more spacing inside */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+    backdrop-filter: blur(15px); /* Increased blur effect for sharper contrast */
+    color: white;
+    width: 80%;
+    margin: 40px auto; /* More margin to separate from top */
+    max-width: 1000px; /* Set max-width for responsiveness */
+}
+
+/* Privacy Glass Effect for any Room Page */
+.room-page {
+    background: rgba(255, 255, 255, 0.2); /* Lighter glass effect */
+    border-radius: 15px; /* Slightly more rounded corners */
+    padding: 40px 30px; /* Add more spacing inside */
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2); /* More pronounced shadow */
+    backdrop-filter: blur(15px); /* Increased blur effect for sharper contrast */
+    color: white;
+    width: 80%;
+    margin: 40px auto; /* More margin to separate from top */
+    max-width: 1000px; /* Set max-width for responsiveness */
+    position: relative; /* Make it easier to position the image inside */
+}
+
+/* Generic Room Image */
+.room-page .room-image {
+    width: 100%; /* Ensure it takes up full width */
+    margin-bottom: 20px; /* Add spacing below the image */
+    border-radius: 10px; /* Smooth rounded corners for image */
+    overflow: hidden; /* Ensure image doesn't spill over */
+}
+
+.room-page .room-image img {
+    width: 100%; /* Make image fill the container */
+    height: auto; /* Maintain aspect ratio */
+    object-fit: cover; /* Crop image to fill the space without distorting */
+    border-radius: 10px;
+}
+
+/* Room Title */
+.room-page h1 {
+    font-size: 40px; /* Larger title for impact */
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+/* Content below the image */
+.room-page p {
+    font-size: 18px;
+    line-height: 1.6;
+    text-align: center;
+}
+
+/* Room Details (Used for listing room features) */
+.room-page .room-details ul {
+    list-style: none;
+    padding: 0;
+}
+
+.room-page .room-details li {
+    font-size: 18px;
+    margin-bottom: 12px;
+}
+
+.room-page .room-details strong {
+    font-weight: bold;
+    color: #FFD700; /* Gold accent for emphasis */
+}
+
+/* Action Link - 'Back to My Bookings' */
+.room-page .action-link p {
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Action Link - 'Back to My Bookings' */
+.action-link p {
+    text-align: center;
+    margin-top: 30px;
+}
+
+.room-page .btn-link {
+    font-size: 18px;
+    color: #28a745; /* Green link color */
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid #28a745;
+    padding: 10px 20px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.room-page .btn-link:hover {
+    background-color: #28a745;
+    color: white;
+    cursor: pointer;
+    transform: translateY(-3px); /* Slight lift on hover for button */
+}
+
+/* Responsive Design: Mobile-first adjustments */
+@media (max-width: 768px) {
+    .room-page {
+        width: 95%;
+        margin: 20px auto;
+    }
+    .room-page h1 {
+        font-size: 32px;
+    }
+    .room-page .room-details li {
+        font-size: 16px;
+    }
+    .room-page .btn-link {
+        padding: 8px 15px;
+        font-size: 16px;
+    }
+}
+
+
+
+/* Content Styles */
+.content {
+    padding-top: 60px;
+    text-align: center;
+}
+
+.content h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+    color: #fff; /* White heading color */
+}
+
+.content h2, .content h3 {
+    font-size: 24px;
+    margin-bottom: 10px;
+    color: #fff;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #333;
+    padding: 0 20px;
+    height: 60px;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+}
+
+.navbar a, .navbar .icon {
+    color: white;
+    text-decoration: none;
+    padding: 14px 20px;
+    cursor: pointer;
+    margin-right: 10px; /* Space between links */
+}
+
+.navbar a:hover {
+    background-color: #ddd;
+    color: black;
+}
+
+.navbar .logout {
+    margin-left: auto; /* Align logout to the right */
+}
+
+/* Submenu container to show submenu only when hovering over Rooms link */
+.submenu-container {
+    position: relative;
+}
+
+/* Hide the submenu by default */
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #444;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    min-width: 200px;
+    z-index: 1000;
+}
+
+/* Show submenu when hovering over the parent container */
+.submenu-container:hover .submenu {
+    display: block;
+}
+
+.submenu div {
+    padding: 10px 15px;
+}
+
+.submenu div a {
+    color: white;
+    text-decoration: none;
+    display: block;
+}
+
+.submenu div a:hover {
+    background-color: #666;
+}
+
+/* Icon Styling */
+.navbar .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.navbar img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Content below navbar */
+.content {
+    padding-top: 60px;
+    padding-left: 80px;
+}
+
+.content h1 {
+    font-size: 36px;
+    margin-bottom: 20px;
+}
+
+.content h3 {
+    font-size: 24px;
+}
+
+
+p, li {
+    color: black;
+}
+
+/* Style for the Back to Top button */
+#back-to-top {
+    position: fixed;
+    bottom: 20px;
+    left: 20px;
+    background-color: #8b8a8a;
+    color: white;
+    border: none;
+    padding: 15px;
+    border-radius: 50%;
+    font-size: 20px;
+    cursor: pointer;
+    display: none;
+    z-index: 1000;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: opacity 0.3s ease;
+}
+
+#back-to-top:hover {
+    background-color: #282929;
+}
+
+#back-to-top.visible {
+    opacity: 1;
+}
+
+#back-to-top.invisible {
+    opacity: 0;
+}
+
+/* Chart Container */
+.chart-container {
+    background-color: white;
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 20px 0;
+}
+
+/* Media Query for Smaller Screens */
+@media (max-width: 768px) {
+    .table {
+        width: 100%;
+    }
+    .content {
+        padding-left: 20px;
+    }
+}
+
+/* General Styling */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f5f5f5;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    padding: 20px;
+}
+
+h1, h2, h3 {
+    color: #333;
+    font-family: 'Arial', sans-serif;
+}
+
+/* About Page */
+.about-container {
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Hotel Introduction */
+.hotel-intro {
+    margin-bottom: 40px;
+}
+
+.hotel-info {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.hotel-info h1 {
+    font-size: 36px;
+    margin-bottom: 15px;
+}
+
+.hotel-info p {
+    font-size: 18px;
+    line-height: 1.6;
+}
+
+/* Rooms Section */
+.our-rooms {
+    margin-bottom: 40px;
+}
+
+.our-rooms h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.rooms-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    justify-content: center;
+}
+
+.room-item {
+    width: 300px;
+    background-color: #fff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    padding: 15px;
+}
+
+.room-item h3 {
+    font-size: 22px;
+    color: #333;
+}
+
+.room-item .room-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-bottom: 15px;
+}
+
+.room-item p {
+    font-size: 16px;
+    color: #555;
+}
+
+.room-item .btn {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    text-decoration: none;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 15px;
+}
+
+.room-item .btn:hover {
+    background-color: #0056b3;
+}
+
+/* Services Section */
+.hotel-services {
+    margin-bottom: 40px;
+}
+
+.hotel-services h2 {
+    font-size: 28px;
+    margin-bottom: 15px;
+}
+
+.services-list {
+    display: flex;
+    gap: 20px;
+    justify-content: space-around;
+}
+
+.service-item {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    width: 22%;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.service-item h3 {
+    font-size: 22px;
+    color: #333;
+    margin-bottom: 10px;
+}
+
+.service-item p {
+    font-size: 16px;
+    color: #555;
+}
+
+/* Footer Section */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+    color: #777;
+}

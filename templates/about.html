@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Hotel</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <!-- Wrap everything in the privacy-glass div for styling -->
+    <div class="privacy-glass">
+        <div class="about-container">
+            <!-- Hotel Introduction Section -->
+            <section class="hotel-intro">
+                <div class="hotel-info">
+                    <h1>Welcome to Walton</h1>
+                    <p>Our hotel offers a luxurious stay with world-class amenities and exceptional service. Located in the heart of the city, we provide comfortable and spacious rooms for both business and leisure travelers.</p>
+                    <p>From elegant design to modern conveniences, our hotel is the perfect destination for all your needs. Whether you're staying for a night or an extended visit, we strive to make every stay memorable.</p>
+                </div>
+            </section>
+
+            <!-- Our Rooms Section -->
+            <section class="our-rooms">
+                <h2>Our Rooms</h2>
+                <p>Explore our diverse range of rooms, each designed to provide comfort, luxury, and convenience. Whether you're looking for a cozy retreat or a lavish experience, we have something to suit every traveler.</p>
+
+                <div class="rooms-list">
+                    <!-- Deluxe Room -->
+                    <div class="room-item">
+                        <h3>Deluxe Room</h3>
+                        <img src="{{ url_for('static', filename='assets/deluxe.jpg') }}" alt="Deluxe Room" class="room-image">
+                        <p>The Deluxe Room offers a luxurious and spacious environment, perfect for those seeking a lavish experience. Enjoy a private balcony, minibar, and top-tier amenities.</p>
+                        <a href="{{ url_for('Deluxe_room') }}" class="btn">View Details</a>
+                    </div>
+
+                    <!-- Double Room -->
+                    <div class="room-item">
+                        <h3>Double Room</h3>
+                        <img src="{{ url_for('static', filename='assets/double.jpg') }}" alt="Double Room" class="room-image">
+                        <p>Ideal for solo travelers or couples, the Double Room offers comfort and privacy with all the essential amenities. Enjoy a restful night in this cozy space.</p>
+                        <a href="{{ url_for('Double_room') }}" class="btn">View Details</a>
+                    </div>
+
+                    <!-- Family Room -->
+                    <div class="room-item">
+                        <h3>Family Room</h3>
+                        <img src="{{ url_for('static', filename='assets/family.jpeg') }}" alt="Family Room" class="room-image">
+                        <p>Our Family Room provides extra space with additional beds, making it the perfect choice for families. Enjoy the comforts of home while traveling.</p>
+                        <a href="{{ url_for('Family_room') }}" class="btn">View Details</a>
+                    </div>
+
+                    <!-- Standard Room -->
+                    <div class="room-item">
+                        <h3>Standard Room</h3>
+                        <img src="{{ url_for('static', filename='assets/standard.jpg') }}" alt="Standard Room" class="room-image">
+                        <p>The Standard Room offers a comfortable and affordable option for travelers. It features all the essential amenities needed for a relaxing stay.</p>
+                        <a href="{{ url_for('Single_room') }}" class="btn">View Details</a>
+                    </div>
+
+                    <!-- Suite Room -->
+                    <div class="room-item">
+                        <h3>Suite Room</h3>
+                        <img src="{{ url_for('static', filename='assets/suite.jpg') }}" alt="Suite Room" class="room-image">
+                        <p>The Suite Room is designed for those who seek the ultimate in luxury and comfort. Enjoy a spacious environment with personalized services and top-of-the-line amenities.</p>
+                        <a href="{{ url_for('Suite_room') }}" class="btn">View Details</a>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Services Section -->
+            <section class="hotel-services">
+                <h2>Our Services</h2>
+                <div class="services-list">
+                    <div class="service-item">
+                        <h3>Free Wi-Fi</h3>
+                        <p>Stay connected with high-speed internet access throughout the hotel, available in all rooms and common areas.</p>
+                    </div>
+                    <div class="service-item">
+                        <h3>24/7 Room Service</h3>
+                        <p>Our room service is available around the clock, ensuring you have everything you need at any time of day or night.</p>
+                    </div>
+                    <div class="service-item">
+                        <h3>Swimming Pool & Spa</h3>
+                        <p>Relax and unwind with a dip in our swimming pool or enjoy a rejuvenating treatment at our on-site spa.</p>
+                    </div>
+                    <div class="service-item">
+                        <h3>Fitness Center</h3>
+                        <p>Our fully equipped fitness center is available for guests who want to maintain their workout routine while traveling.</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Footer Section -->
+            <footer>
+                <p>&copy; 2024 Walton. All rights reserved.</p>
+            </footer>
+        </div>
+    </div>
+
+    {% include 'chatbot.html' %}
+    <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
+    <button id="back-to-top" title="Go to top">&#8593; Back to Top</button>
+    <script src="{{ url_for('static', filename='js/back-to-top.js') }}"></script>
+</body>
+</html>

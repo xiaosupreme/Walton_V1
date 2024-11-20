@@ -5,117 +5,178 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Revenue Dashboard</title>
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Styling for the table */
+        table {
+            width: 70%;  /* Adjust the width as needed */
+            margin: 20px auto; /* Center the table horizontally */
+            border-collapse: collapse;
+        }
+
+        table th, table td {
+            padding: 10px;
+            text-align: left;
+            border: 1px solid #ddd;
+            color: black;  /* Ensure the text is black */
+        }
+
+        table th {
+            background-color: #333;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f4f4f4; /* Light gray for even rows */
+        }
+
+        table tr:nth-child(odd) {
+            background-color: white; /* White for odd rows */
+        }
+
+        table tr:hover {
+            background-color: #e0e0e0; /* Optional: Hover effect */
+        }
+
+        /* Styling for chart containers with white background */
+        .chart-container {
+            background-color: white; /* White background for the chart section */
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+
+        /* Content padding */
+        .content {
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h1>Admin Revenue Dashboard</h1>
+    <div class="content">
+        <div class="privacy-glass">
+            <h1>Admin Revenue Dashboard</h1>
 
-    <div>
-        <h2>Revenue Summary</h2>
-        <p><strong>Revenue for Today: </strong>{{ day_revenue | round(2) }} USD</p>
-        <p><strong>Revenue for This Month: </strong>{{ month_revenue | round(2) }} USD</p>
-        <p><strong>Revenue for This Year: </strong>{{ year_revenue | round(2) }} USD</p>
-    </div>
+            <div>
+                <h2>Revenue Summary</h2>
+                <p><strong>Revenue for Today: </strong>{{ day_revenue | round(2) }} USD</p>
+                <p><strong>Revenue for This Month: </strong>{{ month_revenue | round(2) }} USD</p>
+                <p><strong>Revenue for This Year: </strong>{{ year_revenue | round(2) }} USD</p>
+            </div>
 
-    <div>
-        <h2>Booking Count Summary</h2>
-        <p><strong>Bookings for Today: </strong>{{ day_bookings }}</p>
-        <p><strong>Bookings for This Month: </strong>{{ month_bookings }}</p>
-        <p><strong>Bookings for This Year: </strong>{{ year_bookings }}</p>
-    </div>
+            <div>
+                <h2>Booking Count Summary</h2>
+                <p><strong>Bookings for Today: </strong>{{ day_bookings }}</p>
+                <p><strong>Bookings for This Month: </strong>{{ month_bookings }}</p>
+                <p><strong>Bookings for This Year: </strong>{{ year_bookings }}</p>
+            </div>
 
-    <div>
-        <h2>Current Bookings by Room Type</h2>
-        <table>
-            <thead>
-                <tr>
-                    <th>Room Type</th>
-                    <th>Ongoing Bookings</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for room_type, bookings in room_type_bookings %}
-                <tr>
-                    <td>{{ room_type }}</td>
-                    <td>{{ bookings }}</td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+            <div>
+                <h2>Current Bookings by Room Type</h2>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Room Type</th>
+                            <th>Ongoing Bookings</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for room_type, bookings in room_type_bookings %}
+                        <tr>
+                            <td>{{ room_type }}</td>
+                            <td>{{ bookings }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
 
-    <div>
-        <h2>Revenue and Booking Trends (Last 30 Days)</h2>
-        <canvas id="revenueChart"></canvas>
-        <canvas id="bookingChart"></canvas>
-    </div>
+            <div>
+                <h2>Revenue and Booking Trends (Last 30 Days)</h2>
 
-    <br>
-    <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+                <!-- Chart Container with White Background -->
+                <div class="chart-container">
+                    <canvas id="revenueChart"></canvas>
+                </div>
 
-    <script>
-        // Data for Revenue Chart
-        var revenueChart = new Chart(document.getElementById('revenueChart'), {
-            type: 'line',
-            data: {
-                labels: {{ dates | tojson }},
-                datasets: [{
-                    label: 'Revenue (USD)',
-                    data: {{ revenues | tojson }},
-                    borderColor: 'rgb(75, 192, 192)',
-                    fill: false,
-                    tension: 0.1
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Date'
-                        }
+                <div class="chart-container">
+                    <canvas id="bookingChart"></canvas>
+                </div>
+            </div>
+
+            <br>
+            <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+
+            <script>
+                // Data for Revenue Chart
+                var revenueChart = new Chart(document.getElementById('revenueChart'), {
+                    type: 'line',
+                    data: {
+                        labels: {{ dates | tojson }},
+                        datasets: [{
+                            label: 'Revenue (USD)',
+                            data: {{ revenues | tojson }},
+                            borderColor: 'rgb(75, 192, 192)',
+                            fill: false,
+                            tension: 0.1
+                        }]
                     },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Revenue (USD)'
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Revenue (USD)'
+                                }
+                            }
                         }
                     }
-                }
-            }
-        });
+                });
 
-        // Data for Booking Count Chart
-        var bookingChart = new Chart(document.getElementById('bookingChart'), {
-            type: 'line',
-            data: {
-                labels: {{ dates | tojson }},
-                datasets: [{
-                    label: 'Booking Count',
-                    data: {{ booking_counts | tojson }},
-                    borderColor: 'rgb(255, 99, 132)',
-                    fill: false,
-                    tension: 0.1
-                }]
-            },
-            options: {
-                scales: {
-                    x: {
-                        title: {
-                            display: true,
-                            text: 'Date'
-                        }
+                // Data for Booking Count Chart
+                var bookingChart = new Chart(document.getElementById('bookingChart'), {
+                    type: 'line',
+                    data: {
+                        labels: {{ dates | tojson }},
+                        datasets: [{
+                            label: 'Booking Count',
+                            data: {{ booking_counts | tojson }},
+                            borderColor: 'rgb(255, 99, 132)',
+                            fill: false,
+                            tension: 0.1
+                        }]
                     },
-                    y: {
-                        title: {
-                            display: true,
-                            text: 'Booking Count'
+                    options: {
+                        scales: {
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Date'
+                                }
+                            },
+                            y: {
+                                title: {
+                                    display: true,
+                                    text: 'Booking Count'
+                                }
+                            }
                         }
                     }
-                }
-            }
-        });
-    </script>
+                });
+            </script>
+        </div>
+    </div>
+    
+    <button id="back-to-top" title="Go to top">&#8593; Back to Top</button>
+    <script src="{{ url_for('static', filename='js/back-to-top.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
 </body>
 </html>

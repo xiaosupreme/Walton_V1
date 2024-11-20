@@ -4,126 +4,60 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
-    <style>
-        /* Table Styles */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 16px;
-            text-align: left;
-        }
-
-        table thead {
-            background-color: #333;
-            color: white;
-        }
-
-        table th, table td {
-            border: 1px solid #ddd;
-            padding: 12px 15px;
-        }
-
-        table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        table tr:hover {
-            background-color: #ddd;
-        }
-
-        table th {
-            background-color: #333;
-            color: white;
-        }
-
-        /* Button Styling */
-        .btn {
-            padding: 8px 15px;
-            font-size: 14px;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-            margin-right: 5px;
-        }
-
-        .btn-success {
-            background-color: #28a745;
-            color: white;
-        }
-
-        .btn-success:hover {
-            background-color: #218838;
-        }
-
-        .btn-danger {
-            background-color: #dc3545;
-            color: white;
-        }
-
-        .btn-danger:hover {
-            background-color: #c82333;
-        }
-
-        .btn-secondary {
-            background-color: #6c757d;
-            color: white;
-        }
-
-        .btn-secondary:hover {
-            background-color: #5a6268;
-        }
-
-        .btn[disabled] {
-            cursor: not-allowed;
-            opacity: 0.65;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h1>Admin Dashboard</h1>
-    <h2>Booking Requests</h2>
-    {% if booking_requests %}
-        <table>
-            <thead>
-                <tr>
-                    <th>Username</th>
-                    <th>Room Type</th>
-                    <th>Room Number</th>
-                    <th>Start Date</th>
-                    <th>End Date</th>
-                    <th>Final Price</th> 
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for request in booking_requests %}
-                <tr>
-                    <td>{{ request[1] }}</td> 
-                    <td>{{ request[2] }}</td> 
-                    <td>{{ request[3] }}</td> 
-                    <td>{{ request[4] }}</td> 
-                    <td>{{ request[5] }}</td> 
-                    <td>{{ request[6] }}</td> 
-                    <td>
-                        {% if request[7] == 'enabled' %}
-                            <form method="POST" action="{{ url_for('approve_booking', booking_request_id=request[0]) }}" style="display: inline;">
-                                <button type="submit" class="btn btn-success">Approve</button>
-                            </form>
-                            <form method="POST" action="{{ url_for('reject_booking', booking_request_id=request[0]) }}" style="display: inline;">
-                                <button type="submit" class="btn btn-danger">Reject</button>
-                            </form>
-                        {% else %}
-                            <button class="btn btn-secondary" disabled>Approved</button>
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    {% else %}
-        <p>No booking requests available.</p>
-    {% endif %}
+    <div class="content">
+        <div class="privacy-glass">
+            <h1>Admin Dashboard</h1>
+            <h2>Booking Requests</h2>
+            {% if booking_requests %}
+                <table class="table"> <!-- Add the 'table' class here -->
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Room Type</th>
+                            <th>Room Number</th>
+                            <th>Start Date</th>
+                            <th>End Date</th>
+                            <th>Final Price</th> 
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for request in booking_requests %}
+                        <tr>
+                            <td>{{ request[1] }}</td> 
+                            <td>{{ request[2] }}</td> 
+                            <td>{{ request[3] }}</td> 
+                            <td>{{ request[4] }}</td> 
+                            <td>{{ request[5] }}</td> 
+                            <td>{{ request[6] }}</td> 
+                            <td>
+                                {% if request[7] == 'enabled' %}
+                                    <form method="POST" action="{{ url_for('approve_booking', booking_request_id=request[0]) }}" style="display: inline;">
+                                        <button type="submit" class="btn btn-success">Approve</button>
+                                    </form>
+                                    <form method="POST" action="{{ url_for('reject_booking', booking_request_id=request[0]) }}" style="display: inline;">
+                                        <button type="submit" class="btn btn-danger">Reject</button>
+                                    </form>
+                                {% else %}
+                                    <button class="btn btn-secondary" disabled>Approved</button>
+                                {% endif %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>No booking requests available.</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <button id="back-to-top" title="Go to top">&#8593; Back to Top</button>
+    <script src="{{ url_for('static', filename='js/back-to-top.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
 </body>
 </html>

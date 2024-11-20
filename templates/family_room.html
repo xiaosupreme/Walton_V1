@@ -4,16 +4,36 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Family Room</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h1>Family Room</h1>
-    <p>Welcome to the Family Room page. Here are the details:</p>
-    <ul>
-        <li>Price: $2500 per night</li>
-        <li>Features: Spacious with extra beds, ideal for family stays.</li>
-        <li>Includes: Free Wi-Fi, air conditioning, family-friendly amenities.</li>
-    </ul>
-    <p><a href="{{ url_for('user_bookings') }}">Back to My Bookings</a></p>
+    
+    <div class="container">
+        <section class="room-page">
+
+            <div class="room-image">
+                <img src="{{ url_for('static', filename='assets/family.jpeg') }}" alt="Family Room" />
+            </div>
+
+            <h1>Family Room</h1>
+            <p>Welcome to the Family Room page. Here are the details:</p>
+            
+            <div class="room-details">
+                <ul>
+                    <li><strong>Price:</strong> $2500 per night</li>
+                    <li><strong>Features:</strong> Spacious with extra beds, ideal for family stays.</li>
+                    <li><strong>Includes:</strong> Free Wi-Fi, air conditioning, family-friendly amenities.</li>
+                </ul>
+            </div>
+
+            <div class="action-link">
+                <p><a href="{{ url_for('user_bookings') }}" class="btn-link">Back to My Bookings</a></p>
+            </div>
+        </section>
+    </div>
+    {% include 'chatbot.html' %}
+    
+    <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
 </body>
 </html>

@@ -4,81 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manual Booking</title>
-    <style>
-        /* Table Styles */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin: 20px 0;
-            font-size: 16px;
-            text-align: left;
-        }
-
-        table thead {
-            background-color: #333;
-            color: white;
-        }
-
-        table th, table td {
-            border: 1px solid #ddd;
-            padding: 12px 15px;
-        }
-
-        table tr:nth-child(even) {
-            background-color: #f2f2f2;
-        }
-
-        table tr:hover {
-            background-color: #ddd;
-        }
-
-        table th {
-            background-color: #333;
-            color: white;
-        }
-
-        /* Button Styling */
-        .btn {
-            display: inline-block;
-            padding: 5px 10px;
-            background-color: #007bff;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-        }
-
-        .btn:hover {
-            background-color: #0056b3;
-        }
-    </style>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h2>Your Booking Requests</h2>
+    <div class="container">
+        <section class="privacy-glass">
+            <h2>Your Booking Requests</h2>
+            
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Room Number</th>
+                        <th>Room Type</th>
+                        <th>Start Date</th>
+                        <th>End Date</th>
+                        <th>Status</th>
+                        <th>Final Price</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for request in booking_requests %}
+                    <tr>
+                        <td>{{ request[1] }}</td>  <!-- Room number -->
+                        <td>{{ request[2] }}</td>  <!-- Room type -->
+                        <td>{{ request[3] }}</td>  <!-- Start date -->
+                        <td>{{ request[4] }}</td>  <!-- End date -->
+                        <td>{{ request[5] }}</td>  <!-- Status -->
+                        <td>{{ request[6] }}</td>  <!-- Final price -->
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </div>
+
     {% include 'chatbot.html' %}
-    <table>
-        <thead>
-            <tr>
-                <th>Room Number</th>
-                <th>Room Type</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Status</th>
-                <th>Final Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for request in booking_requests %}
-                <tr>
-                    <td>{{ request[1] }}</td>  <!-- Room number (second column in the tuple) -->
-                    <td>{{ request[2] }}</td>  <!-- Room type (third column in the tuple) -->
-                    <td>{{ request[3] }}</td>  <!-- Start date (fourth column in the tuple) -->
-                    <td>{{ request[4] }}</td>  <!-- End date (fifth column in the tuple) -->
-                    <td>{{ request[5] }}</td>  <!-- Status (sixth column in the tuple) -->
-                    <td>{{ request[6] }}</td>  <!-- Final price (seventh column in the tuple) -->
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+
+    <button id="back-to-top" title="Go to top">&#8593; Back to Top</button>
+    <script src="{{ url_for('static', filename='js/back-to-top.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
 </body>
 </html>

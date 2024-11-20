@@ -4,37 +4,45 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rooms</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     {% include 'navbar.html' %}
-    <h1>Rooms</h1>
-    <table>
-        <thead>
-            <tr>
-                <th>Room Type</th>
-                <th>Room Number</th>
-                <th>Availability</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for room in rooms %}
-                <tr>
-                    <td>{{ room[1] }}</td>
-                    <td>{{ room[2] }}</td>
-                    <td>
-                        {% if room[3] == 1 %}
-                            Available
-                        {% else %}
-                            Unavailable
-                        {% endif %}
-                    </td>
-                </tr>
-            {% endfor %}
-        </tbody>
-    </table>
+    <div class="content">
+        <section class="privacy-glass">
+            <h1>Rooms</h1>
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Room Type</th>
+                        <th>Room Number</th>
+                        <th>Availability</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for room in rooms %}
+                    <tr>
+                        <td>{{ room[1] }}</td> <!-- Room Type -->
+                        <td>{{ room[2] }}</td> <!-- Room Number -->
+                        <td>
+                            {% if room[3] == 1 %}
+                                <span class="available">Available</span>
+                            {% else %}
+                                <span class="unavailable">Unavailable</span>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+            <div class="action-link">
+                <a href="{{ url_for('admin_dashboard') }}" class="btn">Back to Dashboard</a>
+            </div>
+        </section>
+    </div>
     
-
-    <br>
-    <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+    <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
+    <button id="back-to-top" title="Go to top">&#8593; Back to Top</button>
+    <script src="{{ url_for('static', filename='js/back-to-top.js') }}"></script>
 </body>
 </html>
