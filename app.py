@@ -889,6 +889,14 @@ def Suite_room():
     role = session.get('role', 'user')
     return render_template('suite_room.html', is_logged_in=is_logged_in, role=role)
 
+@app.route('/about')
+def about():
+    return render_template('about.html')
+
+@app.route('/index_no_login')
+def index_no_login():
+    return render_template('index_no_login.html')
+
 
 
 
