@@ -108,7 +108,7 @@
 <body>
     {% include 'navbar.html' %}
     <h1>Book a Room</h1>
-    
+    {% include 'chatbot.html' %}
     {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
             {% for category, message in messages %}
