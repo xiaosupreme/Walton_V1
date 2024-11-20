@@ -4,34 +4,81 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Manual Booking</title>
+    <style>
+        /* Table Styles */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 16px;
+            text-align: left;
+        }
+
+        table thead {
+            background-color: #333;
+            color: white;
+        }
+
+        table th, table td {
+            border: 1px solid #ddd;
+            padding: 12px 15px;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+
+        table tr:hover {
+            background-color: #ddd;
+        }
+
+        table th {
+            background-color: #333;
+            color: white;
+        }
+
+        /* Button Styling */
+        .btn {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #007bff;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .btn:hover {
+            background-color: #0056b3;
+        }
+    </style>
 </head>
 <body>
     {% include 'navbar.html' %}
-<h2>Your Booking Requests</h2>
-{% include 'chatbot.html' %}
-<table>
-    <thead>
-        <tr>
-            <th>Room Number</th>
-            <th>Room Type</th>
-            <th>Start Date</th>
-            <th>End Date</th>
-            <th>Status</th>
-            <th>Final Price</th>
-        </tr>
-    </thead>
-    <tbody>
-        {% for request in booking_requests %}
+    <h2>Your Booking Requests</h2>
+    {% include 'chatbot.html' %}
+    <table>
+        <thead>
             <tr>
-                <td>{{ request[1] }}</td>  <!-- Room number (second column in the tuple) -->
-                <td>{{ request[2] }}</td>  <!-- Room type (third column in the tuple) -->
-                <td>{{ request[3] }}</td>  <!-- Start date (fourth column in the tuple) -->
-                <td>{{ request[4] }}</td>  <!-- End date (fifth column in the tuple) -->
-                <td>{{ request[5] }}</td>  <!-- Status (sixth column in the tuple) -->
-                <td>{{ request[6] }}</td>  <!-- Final price (seventh column in the tuple) -->
+                <th>Room Number</th>
+                <th>Room Type</th>
+                <th>Start Date</th>
+                <th>End Date</th>
+                <th>Status</th>
+                <th>Final Price</th>
             </tr>
-        {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            {% for request in booking_requests %}
+                <tr>
+                    <td>{{ request[1] }}</td>  <!-- Room number (second column in the tuple) -->
+                    <td>{{ request[2] }}</td>  <!-- Room type (third column in the tuple) -->
+                    <td>{{ request[3] }}</td>  <!-- Start date (fourth column in the tuple) -->
+                    <td>{{ request[4] }}</td>  <!-- End date (fifth column in the tuple) -->
+                    <td>{{ request[5] }}</td>  <!-- Status (sixth column in the tuple) -->
+                    <td>{{ request[6] }}</td>  <!-- Final price (seventh column in the tuple) -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>

@@ -72,7 +72,7 @@ def send_message():
 def get_conversation():
     return jsonify(session.get('messages', []))
 
-@app.route('/')
+@app.route('/index')
 def index():
 
     is_logged_in = 'user_id' in session
@@ -893,7 +893,7 @@ def Suite_room():
 def about():
     return render_template('about.html')
 
-@app.route('/index_no_login')
+@app.route('/')
 def index_no_login():
     return render_template('index_no_login.html')
 
