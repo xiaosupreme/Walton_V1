@@ -4,65 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Bookings</title>
-   
 </head>
 <body>
     {% include 'navbar.html' %}
-<div class="container">
-    <h2 class="mt-4">Admin Bookings</h2>
-    
-    {% with messages = get_flashed_messages(with_categories=true) %}
-        {% if messages %}
-            <div class="alert alert-{{ messages[0][0] }}">
-                {{ messages[0][1] }}
+    <div class="container">
+        <h2 class="mt-4">Admin Bookings</h2>
+
+      
+
+        <!-- Date Filtering Form -->
+        <form method="GET" action="{{ url_for('admin_bookings') }}" class="form-inline mb-4">
+            <label for="start_date">Start Date:</label>
+            <input type="date" id="start_date" name="start_date" class="form-control ml-2">
+            
+            <label for="end_date" class="ml-3">End Date:</label>
+            <input type="date" id="end_date" name="end_date" class="form-control ml-2">
+            
+            <button type="submit" class="btn btn-primary ml-3">Filter</button>
+        </form>
+
+        {% if start_date and end_date %}
+            <!-- Message to show booked rooms for the selected date range -->
+            <div class="alert alert-info">
+                <strong>Booked Rooms for {{ start_date }} to {{ end_date }}:</strong> 
+                {{ bookings|length }} bookings found.
+            </div>
+        {% else %}
+            <div class="alert alert-info">
+                <strong>All Booked Rooms:</strong> Showing all bookings.
             </div>
         {% endif %}
-    {% endwith %}
 
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Username</th>
-                <th>Room Number</th>
-                <th>Room Type</th>
-                <th>Start Date</th>
-                <th>End Date</th>
-                <th>Status</th>
-                <th>Final Price</th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for booking in bookings %}
-            <tr>
-                <td>{{ booking[0] }}</td>
-                <td>{{ booking[1] }}</td>
-                <td>{{ booking[2] }}</td>
-                <td>{{ booking[3] }}</td>
-                <td>{{ booking[4] }}</td>
-                <td>{{ booking[5] }}</td>
-                <td>{{ booking[6] }}</td>
-                
-                <td>
-                    {% if booking[6] == 'Ongoing' %}
-                    <form method="POST" action="{{ url_for('admin_bookings') }}">
-                        <input type="hidden" name="booking_id" value="{{ booking[0] }}">
-                        <button type="submit" class="btn btn-success" name="complete_booking">Mark as Completed</button>
-                    </form>
-                    {% else %}
-                    <button class="btn btn-secondary" disabled>Completed</button>
-                    {% endif %}
-                </td>
-                <td>{{ booking[7] }}</td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
+        <table class="table table-bordered">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Room Number</th>
+                    <th>Room Type</th>
+                    <th>Start Date</th>
+                    <th>End Date</th>
+                    <th>Status</th>
+                    <th>Final Price</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for booking in bookings %}
+                <tr>
+                    <td>{{ booking[0] }}</td>
+                    <td>{{ booking[1] }}</td>
+                    <td>{{ booking[2] }}</td>
+                    <td>{{ booking[3] }}</td>
+                    <td>{{ booking[4] }}</td>
+                    <td>{{ booking[5] }}</td>
+                    <td>{{ booking[6] }}</td>
+                    
+                    <td>
+                        {% if booking[6] == 'Ongoing' %}
+                        <form method="POST" action="{{ url_for('admin_bookings') }}">
+                            <input type="hidden" name="booking_id" value="{{ booking[0] }}">
+                            <button type="submit" class="btn btn-success" name="complete_booking">Mark as Completed</button>
+                        </form>
+                        {% else %}
+                        <button class="btn btn-secondary" disabled>Completed</button>
+                        {% endif %}
+                    </td>
+                    <td>{{ booking[7] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>

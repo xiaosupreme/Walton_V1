@@ -8,6 +8,19 @@
 <body>
     {% include 'navbar.html' %}
     <h1>Rooms</h1>
+
+    <!-- Date Picker Section -->
+    <form id="date-form" method="GET">
+        <label for="start_date">Start Date:</label>
+        <input type="date" id="start_date" name="start_date" required>
+        <br>
+        <label for="end_date">End Date:</label>
+        <input type="date" id="end_date" name="end_date" required>
+        <br><br>
+        <button type="submit">Check Availability</button>
+    </form>
+    <p>{{ date_range_message }}</p>
+    <!-- Rooms Table Section -->
     <table>
         <thead>
             <tr>
@@ -16,7 +29,7 @@
                 <th>Availability</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody id="room-list">
             {% for room in rooms %}
                 <tr>
                     <td>{{ room[1] }}</td>
@@ -32,9 +45,9 @@
             {% endfor %}
         </tbody>
     </table>
-    
 
     <br>
     <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>
+
 </body>
 </html>

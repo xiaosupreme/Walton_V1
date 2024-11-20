@@ -2,12 +2,16 @@ from flask import Flask, render_template, request, redirect, url_for, session, f
 from flask_mysqldb import MySQL
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
+from apscheduler.schedulers.background import BackgroundScheduler
 from flask_login import login_required, current_user  
 import pandas as pd
 import joblib
 import requests 
 import uuid 
 from flask_cors import CORS
+import pytz
+import atexit
+
 
 
 
@@ -26,6 +30,47 @@ app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'hotel_booking'
 
 mysql = MySQL(app)
+
+# Get the current date and time in Philippine Time
+philippine_tz = pytz.timezone('Asia/Manila')
+current_time = datetime.now(philippine_tz)
+
+
+current_date = current_time.date()
+
+
+current_time_str = current_time.strftime('%Y-%m-%d %H:%M:%S')
+
+scheduler = BackgroundScheduler()
+
+# Function to mark expired bookings as completed
+# Create scheduler
+scheduler = BackgroundScheduler()
+
+# Function to mark expired bookings as completed
+def mark_expired_bookings():
+    today = datetime.now().date()
+
+    # SQL query to update all bookings whose end_date is before today
+    cur = mysql.connection.cursor()
+    cur.execute('''
+        UPDATE bookings
+        SET status = 'completed', end_date = %s
+        WHERE end_date < %s AND status = 'Ongoing'
+    ''', (today, today))
+
+    mysql.connection.commit()
+    cur.close()
+    print(f"Expired bookings have been marked as 'completed' on {today}")
+
+# Add the job to run periodically (every hour, for example)
+scheduler.add_job(mark_expired_bookings, 'interval', hours=1)
+
+# Start the scheduler
+scheduler.start()
+
+# Ensure the scheduler shuts down gracefully when the app stops
+atexit.register(lambda: scheduler.shutdown())
 
 
 @app.before_request
@@ -130,6 +175,13 @@ def login():
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
+    
+    if 'user_id' in session:
+        if session.get('role') == 'admin':
+            return redirect(url_for('admin_dashboard'))
+        else:
+            return redirect(url_for('index'))
+
     if request.method == 'POST':
         username = request.form['username']
         password = generate_password_hash(request.form['password'])
@@ -375,7 +427,7 @@ def book_room():
     role = session.get('role', 'user')
     
     if 'role' not in session or session['role'] != 'user':
-        flash('You must be an user to access this page.', 'error')
+        flash('You must be a user to access this page.', 'error')
         return redirect(url_for('login')) 
     
     room_type_prices = {
@@ -385,8 +437,6 @@ def book_room():
         'Deluxe': 5000,
         'Suite': 7500
     }
-
-    
 
     username = session['username']
 
@@ -434,6 +484,7 @@ def book_room():
             flash('The selected room is not available for the chosen dates.', 'error')
             return redirect(url_for('book_room'))
 
+        # Request prediction for the occupancy rate
         prediction_response = requests.post(url_for('predict', _external=True), data={
             'room_type': room_type,
             'date': start_date
@@ -446,6 +497,10 @@ def book_room():
 
         occupancy_rate = prediction_data['prediction']
 
+        # Print the occupancy rate (prediction)
+        print(f"Predicted occupancy for {room_type} on {start_date}: {occupancy_rate:.2f}%")
+
+        # Compute price adjustment based on occupancy rate
         price_adjustment = 0
         if 0 <= occupancy_rate <= 10:
             price_adjustment = -0.20
@@ -466,10 +521,18 @@ def book_room():
         elif 91 <= occupancy_rate <= 100:
             price_adjustment = 0.25
 
+        # Calculate the final price
         num_days = (end_date_obj - start_date_obj).days
         base_price_per_day = room_type_prices[room_type]
         final_price = num_days * base_price_per_day * (1 + price_adjustment)
 
+        # Print the calculated final price
+        print(f"Base price per day: {base_price_per_day}")
+        print(f"Number of days: {num_days}")
+        print(f"Price adjustment: {price_adjustment * 100:.2f}%")
+        print(f"Final price: {final_price:.2f}")
+
+        # Insert booking request into the database
         cur.execute(''' 
             INSERT INTO booking_requests (username, room_id, start_date, end_date, final_price, status)
             VALUES (%s, %s, %s, %s, %s, 'Pending')
@@ -477,7 +540,7 @@ def book_room():
         mysql.connection.commit()
         cur.close()
 
-        print(f"Final price for booking: {final_price}") 
+        print(f"Booking request for {room_type} with final price: {final_price:.2f} submitted by {username}.") 
 
         flash('Booking request submitted successfully.', 'success')
         return redirect(url_for('user_bookings'))
@@ -495,7 +558,8 @@ def book_room():
 
         cur.close()
 
-    return render_template('book_room.html', room_types=room_types, room_numbers=room_numbers, is_logged_in=is_logged_in, role=role) 
+    return render_template('book_room.html', room_types=room_types, room_numbers=room_numbers, is_logged_in=is_logged_in, role=role)
+
 
 
 
@@ -599,33 +663,94 @@ def approve_booking(booking_request_id):
 
 @app.route('/reject-booking/<int:booking_request_id>', methods=['POST'])
 def reject_booking(booking_request_id):
-   
+    # Ensure the user is logged in as an admin
     if 'username' not in session or session['role'] != 'admin':
         flash('You must be logged in as an admin to perform this action.', 'error')
         return redirect(url_for('login'))
 
+    try:
+        cur = mysql.connection.cursor()
+
+        # Fetch the booking request details
+        cur.execute("SELECT username, room_id, start_date, end_date, final_price FROM booking_requests WHERE id = %s", (booking_request_id,))
+        booking_request = cur.fetchone()
+
+        if not booking_request:
+            flash("Booking request not found.", "error")
+            return redirect(url_for('admin_dashboard'))
+
+        # Insert the rejected booking into the rejected_bookings table
+        username, room_id, start_date, end_date, final_price = booking_request
+        cur.execute('''
+            INSERT INTO rejected_bookings (username, room_id, start_date, end_date, status, final_price)
+            VALUES (%s, %s, %s, %s, 'rejected', %s)
+        ''', (username, room_id, start_date, end_date, final_price))
+
+        # Delete the booking request from the booking_requests table
+        cur.execute("DELETE FROM booking_requests WHERE id = %s", (booking_request_id,))
+
+        # Commit the changes
+        mysql.connection.commit()
+        cur.close()
+
+        flash('Booking request rejected and moved to rejected bookings.', 'danger')
+    except Exception as e:
+        flash(f'An error occurred: {str(e)}', 'danger')
+        mysql.connection.rollback()
+
+    return redirect(url_for('admin_dashboard'))
+
+@app.route('/rejected-bookings', methods=['GET'])
+def rejected_bookings():
+    is_logged_in = 'user_id' in session
+    role = session.get('role', 'user')
+    # Ensure the user is logged in as an admin
+    if 'role' not in session or session['role'] != 'admin':
+        flash('You must be an admin to access this page.', 'error')
+        return redirect(url_for('login'))
+
+    # Fetch all rejected bookings from the rejected_bookings table
     cur = mysql.connection.cursor()
-    cur.execute("UPDATE booking_requests SET status = 'rejected' WHERE id = %s", (booking_request_id,))
-    mysql.connection.commit()
+    cur.execute("SELECT id, username, room_id, start_date, end_date, status, final_price, created_at FROM rejected_bookings")
+    rejected_bookings = cur.fetchall()
     cur.close()
 
-    flash('Booking request rejected.', 'danger')
-    return redirect(url_for('admin_dashboard'))
+    return render_template('rejected_bookings.html', rejected_bookings=rejected_bookings, is_logged_in=is_logged_in, role=role)
 
 @app.route('/rooms', methods=['GET'])
 def rooms():
-    
+    # Ensure the user is logged in and is an admin
     is_logged_in = 'user_id' in session
     role = session.get('role', 'user')
     
     if 'role' not in session or session['role'] != 'admin':  
         flash('You must be logged in as an admin to access this page.')
         return redirect(url_for('login'))  
-    print(f"Session user_id: {session.get('user_id')}, role: {session.get('role')}")
+
+    # Get the start and end date from the query parameters (they are passed as strings)
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+
+    # Default to current date if no date is selected
+    current_date = datetime.now().date()
+    if not start_date:
+        start_date = current_date
+    if not end_date:
+        end_date = current_date
+
+    # Ensure the start_date and end_date are in correct format (string -> datetime.date)
+    # If they are already `datetime.date`, we don't need to convert them
+    if isinstance(start_date, str):
+        start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+    if isinstance(end_date, str):
+        end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+
+    # Prepare a message for the user to display
+    date_range_message = f"Rooms available from {start_date} to {end_date}"
 
     cur = mysql.connection.cursor()
-    
-    current_date = datetime.now().date()
+
+    # Query to get room availability based on the selected date range
     cur.execute('''
         SELECT rooms.id, rooms.room_type, rooms.room_number, 
                IF(EXISTS (
@@ -636,36 +761,55 @@ def rooms():
                    AND bookings.end_date >= %s
                ), 0, 1) AS is_available
         FROM rooms
-    ''', (current_date, current_date))
+    ''', (end_date, start_date))
 
     rooms_data = cur.fetchall()
     cur.close()
 
-    return render_template('rooms.html', rooms=rooms_data, is_logged_in=is_logged_in, role=role)
+    # Return the room availability as rendered HTML along with the date range message
+    return render_template('rooms.html', rooms=rooms_data, is_logged_in=is_logged_in, role=role, date_range_message=date_range_message)
 
 
 
 @app.route('/admin-bookings', methods=['GET', 'POST'])
 def admin_bookings():
-    
     is_logged_in = 'user_id' in session
     role = session.get('role', 'user')
-    
-     
-    
+
     if 'role' not in session or session['role'] != 'admin':
         flash('You must be an admin to access this page.', 'error')
         return redirect(url_for('login'))
 
-   
     cur = mysql.connection.cursor()
-    cur.execute("SELECT b.id, b.username, r.room_number, r.room_type, b.start_date, b.end_date, b.status, b.final_price "
-                "FROM bookings b "
-                "JOIN rooms r ON b.room_id = r.id")
+
+    # Get the start_date and end_date from the form (if provided)
+    start_date = request.args.get('start_date')
+    end_date = request.args.get('end_date')
+
+    # If dates are provided, filter by the selected date range
+    if start_date and end_date:
+        start_date = datetime.strptime(start_date, '%Y-%m-%d').date()
+        end_date = datetime.strptime(end_date, '%Y-%m-%d').date()
+        cur.execute('''
+            SELECT b.id, b.username, r.room_number, r.room_type, b.start_date, b.end_date, b.status, b.final_price
+            FROM bookings b
+            JOIN rooms r ON b.room_id = r.id
+            WHERE b.start_date >= %s AND b.end_date <= %s
+            ORDER BY b.start_date ASC
+        ''', (start_date, end_date))
+    else:
+        # If no dates are selected, get all bookings and order by start_date
+        cur.execute('''
+            SELECT b.id, b.username, r.room_number, r.room_type, b.start_date, b.end_date, b.status, b.final_price
+            FROM bookings b
+            JOIN rooms r ON b.room_id = r.id
+            ORDER BY b.start_date ASC
+        ''')
+
     bookings = cur.fetchall()
     cur.close()
 
-   
+    # Handle the "Mark as Completed" functionality
     if request.method == 'POST' and 'complete_booking' in request.form:
         booking_id = request.form.get('booking_id')
 
@@ -674,7 +818,6 @@ def admin_bookings():
         booking = cur.fetchone()
 
         if booking and booking[1] == 'Ongoing':
-        
             cur.execute("UPDATE bookings SET status = 'completed', end_date = %s WHERE id = %s",
                         (datetime.now().date(), booking_id))
             mysql.connection.commit()
@@ -686,7 +829,7 @@ def admin_bookings():
 
         return redirect(url_for('admin_bookings'))
 
-    return render_template('admin_bookings.html', bookings=bookings, is_logged_in=is_logged_in, role=role)
+    return render_template('admin_bookings.html', bookings=bookings, is_logged_in=is_logged_in, role=role, start_date=start_date, end_date=end_date)
 
 
 
