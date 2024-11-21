@@ -15,9 +15,10 @@
             <table class="table">
                 <thead>
                     <tr>
+                        <th><a href="{{ url_for('user_bookings', sort_by='id', order='asc' if sort_by != 'id' or order == 'desc' else 'desc') }}">Booking ID</a></th>
                         <th>Room Number</th>
                         <th>Room Type</th>
-                        <th>Start Date</th>
+                        <th><a href="{{ url_for('user_bookings', sort_by='start_date', order='asc' if sort_by != 'start_date' or order == 'desc' else 'desc') }}">Start Date</a></th>
                         <th>End Date</th>
                         <th>Status</th>
                         <th>Final Price</th>
@@ -26,16 +27,23 @@
                 <tbody>
                     {% for request in booking_requests %}
                     <tr>
+                        <td>{{ request[0] }}</td>  <!-- Booking request ID -->
                         <td>{{ request[1] }}</td>  <!-- Room number -->
                         <td>{{ request[2] }}</td>  <!-- Room type -->
                         <td>{{ request[3] }}</td>  <!-- Start date -->
                         <td>{{ request[4] }}</td>  <!-- End date -->
                         <td>{{ request[5] }}</td>  <!-- Status -->
                         <td>{{ request[6] }}</td>  <!-- Final price -->
+                        <td>
+                            <form method="POST" action="{{ url_for('cancel_booking', booking_id=request[0]) }}">
+                                <button type="submit" class="btn btn-danger">Cancel</button>
+                            </form>
+                        </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
+            
         </section>
     </div>
 

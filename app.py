@@ -1001,27 +1001,76 @@ def admin_revenue():
     
 @app.route('/my-booking-requests', methods=['GET'])
 def user_bookings():
-    
     is_logged_in = 'user_id' in session
     role = session.get('role', 'user')
-   
+
     if 'role' not in session or session['role'] != 'user':
         flash('You must be an user to access this page.', 'error')
         return redirect(url_for('login'))
 
-    username = session['username']  
-    
+    username = session['username']
+    sort_by = request.args.get('sort_by', 'id')  # Default sorting by booking request ID
+    order = request.args.get('order', 'asc')  # Default ascending order
+
+    # Ensure only valid columns can be used for sorting
+    if sort_by not in ['id', 'start_date']:
+        sort_by = 'id'  # Default to sorting by booking request ID
+
+    if order not in ['asc', 'desc']:
+        order = 'asc'  # Default to ascending order
+
     cur = mysql.connection.cursor()
-    cur.execute("""
+
+    # Adjust the SQL query to use the chosen sorting options
+    query = f"""
         SELECT br.id, r.room_number, r.room_type, br.start_date, br.end_date, br.status, br.final_price
         FROM booking_requests br
         JOIN rooms r ON br.room_id = r.id
         WHERE br.username = %s
-    """, (username,))
+        ORDER BY {sort_by} {order}
+    """
+    cur.execute(query, (username,))
     booking_requests = cur.fetchall()
     cur.close()
 
-    return render_template('my_booking_requests.html', booking_requests=booking_requests , is_logged_in=is_logged_in, role=role)
+    return render_template(
+        'my_booking_requests.html', 
+        booking_requests=booking_requests, 
+        is_logged_in=is_logged_in, 
+        role=role, 
+        sort_by=sort_by,
+        order=order
+    )
+@app.route('/cancel-booking/<int:booking_id>', methods=['POST'])
+def cancel_booking(booking_id):
+    if 'user_id' not in session:
+        flash('You must be logged in to cancel a booking.', 'error')
+        return redirect(url_for('login'))
+
+    username = session['username']
+    
+    cur = mysql.connection.cursor()
+    
+    # Ensure the booking request belongs to the logged-in user
+    cur.execute("SELECT * FROM booking_requests WHERE id = %s AND username = %s", (booking_id, username))
+    booking = cur.fetchone()
+
+    if not booking:
+        flash('Booking request not found or you do not have permission to cancel it.', 'error')
+        return redirect(url_for('user_bookings'))
+
+    # Proceed with deletion
+    try:
+        cur.execute("DELETE FROM booking_requests WHERE id = %s", (booking_id,))
+        mysql.connection.commit()
+        flash('Booking request cancelled successfully.', 'success')
+    except Exception as e:
+        mysql.connection.rollback()
+        flash('Error cancelling booking request.', 'error')
+    finally:
+        cur.close()
+
+    return redirect(url_for('user_bookings'))
 
 @app.route('/Single_room')
 def Single_room():
