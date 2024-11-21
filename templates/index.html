@@ -3,19 +3,137 @@
 <head>
     <title>Welcome</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Scoped styles for this page */
+        .privacy-glass h1 {
+            font-size: 2em;
+            font-weight: bold;
+            margin: 40px 0 10px; /* Spacing between headings */
+            text-align: left;
+            border-bottom: 2px solid #e0e0e0; /* Optional: Underline to separate sections */
+            padding-bottom: 5px;
+        }
 
+        .privacy-glass p {
+            font-size: 1em;
+            line-height: 1.6;
+            margin-bottom: 30px; /* Add spacing between sections */
+        }
+
+        .conference-rooms {
+            display: flex;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .conference-rooms .room {
+            flex: 1 1 200px; /* Flex item basis with a minimum width */
+            padding: 15px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #f9f9f9;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Scoped styles for the images of Room A to D */
+        .conference-rooms .room img {
+            width: 100%; /* Images will take full width of their container */
+            height: 100px; /* Adjust height to 100px (half the original height) */
+            object-fit: cover; /* Ensures the image covers the area without distortion */
+            border-radius: 8px;
+            margin-bottom: 10px;
+        }
+
+        .conference-rooms .room h2 {
+            font-size: 1.2em;
+            margin-bottom: 10px;
+        }
+
+        .conference-rooms .room p {
+            font-size: 1em;
+        }
+
+        @media (max-width: 768px) {
+            .conference-rooms {
+                flex-direction: column; /* Stack columns on smaller screens */
+            }
+        }
+    </style>
 </head>
 <body>
     {% include 'navbar.html' %}
 
     <div class="content">
-    <div class="privacy-glass">
-        <h1>Welcome, User!</h1>
+        <div class="privacy-glass">
+            <h1>Room Information</h1>
+            <p>Single, Double, Family, Deluxe, Suite</p>
+
+            <h1>Check-In and Amenities</h1>
+            <p>
+                Check-in: Flexible, 24 hours + 1-hour allowance.
+                <br>Complimentary breakfast available, with today's menu displayed.
+            </p>
+
+            <h1>Restaurant</h1>
+            <p>Menu options for breakfast, lunch, and dinner.</p>
+
+            <h1>Parking and Transportation</h1>
+            <p>
+                Secure parking available. (Self-Parking and Valet). 
+                <br>Assistance for arranging airport rides is offered.
+            </p>
+
+            <h1>Amenities and Facilities</h1>
+            <p>
+                Laundry facilities (Self-Service and Dry Cleaning).
+                <br>Pool access.
+                <br>Nearby attractions: Mangrove Beach, Boardwalk, Sun Roof Mall, beachside restaurants.
+            </p>
+
+            <h1>Conference Rooms</h1>
+            <div class="conference-rooms">
+                <div class="room">
+                    <img src="{{ url_for('static', filename='assets/rooftop-view.jpeg') }}" alt="Rooftop View">
+                    <h2>Room A</h2>
+                    <p>Rooftop view</p>
+                </div>
+                <div class="room">
+                    <img src="{{ url_for('static', filename='assets/beach-view.jpg') }}" alt="Beach View">
+                    <h2>Room B</h2>
+                    <p>Beach view</p>
+                </div>
+                <div class="room">
+                    <img src="{{ url_for('static', filename='assets/garden-view.jpg') }}" alt="Garden View">
+                    <h2>Room C</h2>
+                    <p>Garden view</p>
+                </div>
+                <div class="room">
+                    <img src="{{ url_for('static', filename='assets/inner-view.png') }}" alt="InnerCorp View">
+                    <h2>Room D</h2>
+                    <p>Inner corporate style</p>
+                </div>
+            </div>
+
+            <h1>Pet Policy</h1>
+            <p>
+                Pets allowed in Family, Deluxe, and Suite rooms with a cleaning fee and refundable security deposit. 
+                </br>Pets must be potty-trained or wear diapers.
+            </p>
+
+            <h1>Discounts and Payment Options</h1>
+            <p>
+                First-time and Seasonal Discounts. Payment accepted via Cash, Credit Cards, Online Banking, PayPal, Visa. 
+                </br>Installments for longer stays in Deluxe and Suite rooms.
+            </p>
+        </div>
     </div>
-    </div>
+
     {% include 'chatbot.html' %}
 
+    <button id="back-to-top" title="Go to top">&#8593; Back to Top</button>
+    <script src="{{ url_for('static', filename='js/back-to-top.js') }}"></script>
     <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
-        
 </body>
 </html>
