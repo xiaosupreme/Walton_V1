@@ -104,6 +104,90 @@
                 })
                 .catch(error => console.error('Error fetching room numbers:', error));
         }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ensure that the start date cannot be before today
+            var today = new Date().toISOString().split('T')[0];
+            document.getElementById("start_date").setAttribute("min", today);
+            document.getElementById("end_date").setAttribute("min", today);
+            
+            // Room type prices (static values you provided)
+            const roomPrices = {
+                'Single': 1000,
+                'Double': 1600,
+                'Family': 2500,
+                'Deluxe': 5000,
+                'Suite': 7500
+            };
+        
+            // Function to compute the final price
+            function computeFinalPrice() {
+                var roomType = document.getElementById('room_type').value;
+                var startDate = document.getElementById('start_date').value;
+                var endDate = document.getElementById('end_date').value;
+        
+                if (roomType && startDate && endDate) {
+                    // Calculate the number of days between the start and end date
+                    var start = new Date(startDate);
+                    var end = new Date(endDate);
+                    var timeDiff = end - start;
+                    var numberOfDays = timeDiff / (1000 * 3600 * 24); // Convert milliseconds to days
+                    
+                    // Fetch the prediction value for occupancy
+                    var occupancyRate = 0;  // Default in case no prediction is returned
+        
+                    // Call computePrediction to fetch occupancy rate
+                    fetch('/predict', {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                        body: new URLSearchParams({ room_type: roomType, date: startDate })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.prediction) {
+                            occupancyRate = data.prediction;
+                            
+                            // Calculate the price adjustment based on the occupancy rate
+                            let priceAdjustment = 0;
+                            if (occupancyRate <= 10) {
+                                priceAdjustment = -0.20;
+                            } else if (occupancyRate <= 20) {
+                                priceAdjustment = -0.10;
+                            } else if (occupancyRate <= 30) {
+                                priceAdjustment = -0.05;
+                            } else if (occupancyRate <= 50) {
+                                priceAdjustment = 0;
+                            } else if (occupancyRate <= 60) {
+                                priceAdjustment = 0.05;
+                            } else if (occupancyRate <= 70) {
+                                priceAdjustment = 0.10;
+                            } else if (occupancyRate <= 80) {
+                                priceAdjustment = 0.15;
+                            } else if (occupancyRate <= 90) {
+                                priceAdjustment = 0.15;
+                            } else if (occupancyRate <= 100) {
+                                priceAdjustment = 0.25;
+                            }
+        
+                            // Calculate final price
+                            var basePrice = roomPrices[roomType];
+                            var finalPrice = basePrice * numberOfDays * (1 + priceAdjustment);
+                            
+                            // Update the final price on the page
+                            document.getElementById('final_price').textContent = `Final Price: ${finalPrice.toFixed(2)} USD`;
+                        } else {
+                            console.log("Error: Could not fetch prediction");
+                        }
+                    })
+                    .catch(error => console.error('Error fetching prediction:', error));
+                }
+            }
+        
+            // Trigger the price calculation when room type, start date, or end date changes
+            document.getElementById('room_type').addEventListener('change', computeFinalPrice);
+            document.getElementById('start_date').addEventListener('change', computeFinalPrice);
+            document.getElementById('end_date').addEventListener('change', computeFinalPrice);
+        });
     </script>
     
 </head>
@@ -144,7 +228,7 @@
         
             <label for="end_date">End Date:</label>
             <input type="date" name="end_date" id="end_date" required>
-
+            <p id="final_price">Final Price: 0.00 Php</p>
             <button type="submit">Book</button>
         </form>
 

@@ -373,7 +373,11 @@ def manual_booking():
             flash('Invalid room type selected.', 'error')
             return redirect(url_for('manual_booking'))
 
-        print(f"Calculated final price: {final_price}")
+ 
+        print(f"Base price per day: {base_price_per_day}")
+        print(f"Number of days: {num_days}")
+        print(f"Price adjustment: {price_adjustment * 100:.2f}%")
+        print(f"Final price: {final_price:.2f}")
 
         try:
             cur.execute(''' 
@@ -496,7 +500,7 @@ def book_room():
             flash('Could not retrieve prediction: ' + prediction_data['error'], 'error')
             return redirect(url_for('book_room'))
 
-        occupancy_rate = prediction_data['prediction']
+        occupancy_rate = float(prediction_data.get('prediction', 0))
 
        
         print(f"Predicted occupancy for {room_type} on {start_date}: {occupancy_rate:.2f}%")
@@ -504,35 +508,36 @@ def book_room():
         price_adjustment = 0
         if 0 <= occupancy_rate <= 10:
             price_adjustment = -0.20
-        elif 11 <= occupancy_rate <= 20:
+        elif 10 < occupancy_rate <= 20:  # Adjusted range to avoid overlap
             price_adjustment = -0.10
-        elif 21 <= occupancy_rate <= 30:
+        elif 20 < occupancy_rate <= 30:
             price_adjustment = -0.05
-        elif 31 <= occupancy_rate <= 50:
+        elif 30 < occupancy_rate <= 50:
             price_adjustment = 0
-        elif 51 <= occupancy_rate <= 60:
+        elif 50 < occupancy_rate <= 60:
             price_adjustment = 0.05
-        elif 61 <= occupancy_rate <= 71:
+        elif 60 < occupancy_rate <= 70:
             price_adjustment = 0.10
-        elif 72 <= occupancy_rate <= 80:
+        elif 70 < occupancy_rate <= 80:
             price_adjustment = 0.15
-        elif 81 <= occupancy_rate <= 90:
+        elif 80 < occupancy_rate <= 90:
             price_adjustment = 0.15
-        elif 91 <= occupancy_rate <= 100:
+        elif 90 < occupancy_rate <= 100:
             price_adjustment = 0.25
+        else:
+            flash('Occupancy rate out of bounds.', 'error')  # Catch unexpected values
+
 
         
         num_days = (end_date_obj - start_date_obj).days
         base_price_per_day = room_type_prices[room_type]
         final_price = num_days * base_price_per_day * (1 + price_adjustment)
 
-
         print(f"Base price per day: {base_price_per_day}")
         print(f"Number of days: {num_days}")
         print(f"Price adjustment: {price_adjustment * 100:.2f}%")
         print(f"Final price: {final_price:.2f}")
-
-  
+        
         cur.execute(''' 
             INSERT INTO booking_requests (username, room_id, start_date, end_date, final_price, status)
             VALUES (%s, %s, %s, %s, %s, 'Pending')

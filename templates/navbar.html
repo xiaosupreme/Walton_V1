@@ -17,6 +17,7 @@
         <div class="navbar-links">
             {% if not is_logged_in %}
                 <a href="{{ url_for('index_no_login') }}">Home</a>
+                <a href="{{ url_for('about') }}">About</a>
                 <div class="submenu-container">
                     <span>Rooms</span>
                     <div class="submenu">
@@ -27,17 +28,19 @@
                         <div><a href="{{ url_for('Suite_room') }}">Suite</a></div>
                     </div>
                 </div>
+               
                 <a href="{{ url_for('login') }}">Login</a>
                 <a href="{{ url_for('register') }}">Register</a>
-                <a href="{{ url_for('about') }}">About</a>
+                
             {% else %}
                 {% if session.get('role') == 'admin' %}
-                    <a href="{{ url_for('index') }}">Home</a>
-                    <a href="{{ url_for('rooms') }}">Rooms</a>
-                    <a href="{{ url_for('manual_booking') }}">Book Room</a>
+                
+                    
                     <a href="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
                     <a href="{{ url_for('admin_bookings') }}">Admin Bookings</a>
                     <a href="{{ url_for('admin_revenue') }}">Admin Revenue</a>
+                    <a href="{{ url_for('rooms') }}">Rooms</a>
+                    <a href="{{ url_for('manual_booking') }}">Book Room</a>
                     <a href="{{ url_for('rejected_bookings') }}">Rejected</a>
                 {% else %}
                     <a href="{{ url_for('index') }}">Home</a>
