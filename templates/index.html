@@ -15,7 +15,7 @@
             font-size: 2em;
             font-weight: bold;
             margin: 40px 0 10px;
-            color:#2D6A4F
+            color:#2D6A4F;
         }
 
         p {
@@ -150,6 +150,73 @@
             }
         }
 
+        .room a
+        {
+            color:#2D6A4F;
+        }
+
+        .privacy-glass a
+        {
+            color:#2D6A4F;
+        }
+
+        /* Image container for positioning arrows */
+        .image-container {
+            position: relative;
+            display: flex;
+            justify-content: center; /* Center the image horizontally */
+            align-items: center; /* Center the image vertically */
+            width: 100%; /* Ensure the container takes full width */
+            height: 400px; /* Adjust the height for the container (can be modified as needed) */
+        }
+
+        /* Image styles */
+        #amenities-image {
+            width: 100%;
+            max-width: 600px; /* Adjust max-width for proper scaling */
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s ease-in-out; /* Smooth transition effect */
+        }
+
+        /* Arrow styles */
+        .arrow-left, .arrow-right {
+            position: absolute;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 30px;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 50%;
+            z-index: 1; /* Ensure arrows are above the image */
+        }
+
+        .arrow-left {
+            left: 10px;
+        }
+
+        .arrow-right {
+            right: 10px;
+        }
+
+        /* On hover, arrows become more visible */
+        .arrow-left:hover, .arrow-right:hover {
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+        /* For responsive design */
+        @media (max-width: 768px) {
+            #amenities-image {
+                max-width: 100%; /* Ensure the image takes full width on smaller screens */
+            }
+        }
+
+
+
 
     </style>
 </head>
@@ -163,27 +230,27 @@
             <div class="rooms">
                 <div class="room">
                     <img src="{{ url_for('static', filename='assets/standard.jpg') }}" alt="Standard Room">
-                    <h2>Standard Room</h2>
+                    <h2><a href="{{ url_for('Single_room')}}">Standard Room</a></h2>
                     <p>Perfect for solo travelers or a short stay.</p>
                 </div>
                 <div class="room">
                     <img src="{{ url_for('static', filename='assets/double.jpg') }}" alt="Double Room">
-                    <h2>Double Room</h2>
+                    <h2><a href="{{ url_for('Double_room')}}">Double Room</a></h2>
                     <p>Ideal for couples or friends traveling together.</p>
                 </div>
                 <div class="room">
                     <img src="{{ url_for('static', filename='assets/family.jpeg') }}" alt="Family Room">
-                    <h2>Family Room</h2>
+                    <h2><a href="{{ url_for('Family_room')}}">Family Room</a></h2>
                     <p>Spacious and comfortable for families.</p>
                 </div>
                 <div class="room">
                     <img src="{{ url_for('static', filename='assets/deluxe.jpg') }}" alt="Deluxe Room">
-                    <h2>Deluxe Room</h2>
+                    <h2><a href="{{ url_for('Deluxe_room')}}">Deluxe Room</a></h2>
                     <p>Luxurious room with premium amenities.</p>
                 </div>
                 <div class="room">
                     <img src="{{ url_for('static', filename='assets/suite.jpg') }}" alt="Suite Room">
-                    <h2>Suite Room</h2>
+                    <h2><a href="{{ url_for('Suite_room')}}">Suite Room</a></h2>
                     <p>The ultimate comfort and luxury for your stay.</p>
                 </div>
             </div>
@@ -207,22 +274,22 @@
             <div class="conference-rooms">
                 <div class="room">
                     <img src="{{ url_for('static', filename='assets/rooftop-view.jpeg') }}" alt="Rooftop View">
-                    <h2>Room A</h2>
+                    <h2><a href="{{ url_for('conference_rooftop')}}">Room A</a></h2>
                     <p>Rooftop view</p>
                 </div>
                 <div class="room">
                     <img src="{{ url_for('static', filename='assets/beach-view.jpg') }}" alt="Beach View">
-                    <h2>Room B</h2>
+                    <h2><a href="{{ url_for('conference_beach')}}">Room B</a></h2>
                     <p>Beach view</p>
                 </div>
                 <div class="room">
                     <img src="{{ url_for('static', filename='assets/garden-view.jpg') }}" alt="Garden View">
-                    <h2>Room C</h2>
+                    <h2><a href="{{ url_for('conference_garden')}}">Room C</a></h2>
                     <p>Garden view</p>
                 </div>
                 <div class="room">
                     <img src="{{ url_for('static', filename='assets/inner-view.png') }}" alt="Inner Corporate View">
-                    <h2>Room D</h2>
+                    <h2><a href="{{ url_for('conference_inner')}}">Room D</a></h2>
                     <p>Inner corporate style</p>
                 </div>
             </div>
@@ -230,7 +297,7 @@
 
         <!-- Restaurant Section -->
         <div class="privacy-glass reveal">
-            <h1>Restaurant</h1>
+            <h1><a href="{{ url_for('restaurant')}}">Restaurant</a></h1>
             <div class="section-with-image">
                 <div class="text-content">
                     <p>Menu options for breakfast, lunch, and dinner.</p>
@@ -248,10 +315,17 @@
                     <p>Pool access.</p>
                     <p>Nearby attractions: Mangrove Beach, Boardwalk, Sun Roof Mall, beachside restaurants.</p>
                 </div>
-                <img src="{{ url_for('static', filename='assets/amenities.jpg') }}" alt="Amenities">
-            </div>
+                <div class="image-container">
+                    <!-- Arrows for changing images -->
+                    <button class="arrow-left" onclick="changeImage(-1)">&#10094;</button>
+                    <img id="amenities-image" src="{{ url_for('static', filename='assets/amenities.jpg') }}" alt="Amenities" />
+                    <button class="arrow-right" onclick="changeImage(1)">&#10095;</button>
+                </div>
             </div>
         </div>
+
+
+
 
 
         <!-- Parking and Transportation Section -->
@@ -318,6 +392,28 @@
 
         window.addEventListener('scroll', revealOnScroll);
         revealOnScroll(); // Trigger on load
+    </script>
+
+    <script>
+        //Arrows for Images
+        let currentImageIndex = 0;
+        const images = [
+            "{{ url_for('static', filename='assets/amenities.jpg') }}",
+            "{{ url_for('static', filename='assets/amenities-2.jpg') }}",
+            "{{ url_for('static', filename='assets/amenities-3.jpg') }}"
+        ];
+
+        function changeImage(direction) {
+            currentImageIndex += direction;
+
+            if (currentImageIndex < 0) {
+                currentImageIndex = images.length - 1; // Wrap around to the last image
+            } else if (currentImageIndex >= images.length) {
+                currentImageIndex = 0; // Wrap around to the first image
+            }
+
+            document.getElementById("amenities-image").src = images[currentImageIndex];
+        }
     </script>
 </body>
 </html>
