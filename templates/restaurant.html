@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Restaurant Menu</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Privacy Glass Styling */
+        .privacy-glass {
+            background: rgba(255, 255, 255, 0.9); /* Slight opacity for glass effect */
+            padding: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            margin: 20px;
+        }
+
+        /* Header Styling */
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+
+        h2 {
+            color: #555;
+            margin-top: 20px;
+        }
+
+        /* Menu Section Styling */
+        .menu-section {
+            margin-bottom: 40px;
+        }
+
+        /* Card-style Dish Layout */
+        .dish-card {
+            display: flex;
+            justify-content: space-between;
+            background-color: #fff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+            padding: 20px;
+            transition: transform 0.3s ease-in-out;
+        }
+
+        .dish-card:hover {
+            transform: scale(1.05);
+        }
+
+        .dish-image {
+            width: 150px;
+            height: 150px;
+            background-size: cover;
+            background-position: center;
+            border-radius: 8px;
+        }
+
+        .dish-info {
+            flex: 1;
+            padding-left: 20px;
+        }
+
+        .dish-info h3 {
+            margin: 0;
+            font-size: 1.2rem;
+            color: #333;
+        }
+
+        .dish-info p {
+            font-size: 1rem;
+            color: #777;
+        }
+
+        .price {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #28a745;
+        }
+
+        /* Responsive Layout */
+        @media (max-width: 768px) {
+            .dish-card {
+                flex-direction: column;
+                align-items: center;
+                text-align: center;
+            }
+
+            .dish-image {
+                margin-bottom: 10px;
+            }
+
+            .dish-info {
+                padding-left: 0;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    {% include 'navbar.html' %}
+
+    <div class="privacy-glass">
+        <h1>Restaurant Menu</h1>
+
+        <div class="menu-section">
+            <h2>Starters</h2>
+            <div class="dish-card">
+                <div class="dish-image" style="background-image: url('{{ url_for('static', filename='images/garlic_bread.jpg') }}');"></div>
+                <div class="dish-info">
+                    <h3>Garlic Bread</h3>
+                    <p>Crispy bread with garlic butter</p>
+                    <div class="price">$5.99</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-image" style="background-image: url('{{ url_for('static', filename='images/bruschetta.jpg') }}');"></div>
+                <div class="dish-info">
+                    <h3>Bruschetta</h3>
+                    <p>Toasted bread with tomato, basil, and garlic</p>
+                    <div class="price">$6.49</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-image" style="background-image: url('{{ url_for('static', filename='images/stuffed_mushrooms.jpg') }}');"></div>
+                <div class="dish-info">
+                    <h3>Stuffed Mushrooms</h3>
+                    <p>Mushrooms filled with cheese and herbs</p>
+                    <div class="price">$7.99</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <h2>Main Courses</h2>
+            <div class="dish-card">
+                <div class="dish-image" style="background-image: url('{{ url_for('static', filename='images/spaghetti_carbonara.jpg') }}');"></div>
+                <div class="dish-info">
+                    <h3>Spaghetti Carbonara</h3>
+                    <p>Pasta with creamy sauce, pancetta, and parmesan</p>
+                    <div class="price">$14.99</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-image" style="background-image: url('{{ url_for('static', filename='images/chicken_alfredo.jpg') }}');"></div>
+                <div class="dish-info">
+                    <h3>Chicken Alfredo</h3>
+                    <p>Grilled chicken in a rich, creamy sauce</p>
+                    <div class="price">$16.49</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-image" style="background-image: url('{{ url_for('static', filename='images/vegetable_lasagna.jpg') }}');"></div>
+                <div class="dish-info">
+                    <h3>Vegetable Lasagna</h3>
+                    <p>Layered pasta with vegetables and ricotta cheese</p>
+                    <div class="price">$13.99</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <h2>Desserts</h2>
+            <div class="dish-card">
+                <div class="dish-image" style="background-image: url('{{ url_for('static', filename='images/tiramisu.jpg') }}');"></div>
+                <div class="dish-info">
+                    <h3>Tiramisu</h3>
+                    <p>Classic Italian dessert with layers of coffee-soaked cake</p>
+                    <div class="price">$6.99</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-image" style="background-image: url('{{ url_for('static', filename='images/chocolate_cake.jpg') }}');"></div>
+                <div class="dish-info">
+                    <h3>Chocolate Cake</h3>
+                    <p>Rich, moist chocolate cake with a fudge center</p>
+                    <div class="price">$7.49</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-image" style="background-image: url('{{ url_for('static', filename='images/gelato.jpg') }}');"></div>
+                <div class="dish-info">
+                    <h3>Gelato</h3>
+                    <p>Italian ice cream available in various flavors</p>
+                    <div class="price">$5.49</div>
+                </div>
+            </div>
+        </div>
+
+        <div class="menu-section">
+            <h2>Beverages</h2>
+            <div class="dish-card">
+                <div class="dish-image" style="background-image: url('{{ url_for('static', filename='images/espresso.jpg') }}');"></div>
+                <div class="dish-info">
+                    <h3>Espresso</h3>
+                    <p>Strong black coffee served in a small cup</p>
+                    <div class="price">$3.49</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-image" style="background-image: url('{{ url_for('static', filename='images/cappuccino.jpg') }}');"></div>
+                <div class="dish-info">
+                    <h3>Cappuccino</h3>
+                    <p>Coffee with steamed milk and foam</p>
+                    <div class="price">$4.49</div>
+                </div>
+            </div>
+            <div class="dish-card">
+                <div class="dish-image" style="background-image: url('{{ url_for('static', filename='images/sparkling_water.jpg') }}');"></div>
+                <div class="dish-info">
+                    <h3>Sparkling Water</h3>
+                    <div class="price">$2.99</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+
+</html>

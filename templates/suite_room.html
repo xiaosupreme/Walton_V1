@@ -5,34 +5,130 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Suite Room</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* General Body Styling */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9; /* Light gray background */
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+
+        /* Room Page Section Styling */
+        .room-page {
+            background-color: #fff; /* White background for content */
+            border-radius: 10px;
+            padding: 40px;
+            max-width: 1000px;
+            margin: 40px auto;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        /* Room Image Styling */
+        .room-image img {
+            width: 100%;
+            height: auto;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        /* Heading Styling */
+        h1 {
+            font-size: 2.5rem;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        /* Room Description */
+        p {
+            font-size: 1.1rem;
+            color: #666;
+            margin: 10px 0;
+        }
+
+        /* Room Details Section Styling */
+        .room-details {
+            text-align: left;
+            margin-top: 20px;
+            font-size: 1.2rem;
+        }
+
+        .room-details ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        .room-details li {
+            margin-bottom: 12px;
+            color:white;
+        }
+
+        .room-page h1{
+            color:white;
+        }
+
+        .room-page p{
+            color:white;
+        }
+
+        .room-details strong {
+            color: #333;
+        }
+
+        /* Action Link Button Styling */
+        .action-link {
+            margin-top: 30px;
+        }
+
+        .btn-link {
+            background-color: #28a745;
+            color: #fff;
+            padding: 12px 20px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-size: 1.1rem;
+            transition: background-color 0.3s ease;
+        }
+
+        .btn-link:hover {
+            background-color: #218838;
+        }
+
+    </style>
 </head>
+
 <body>
     {% include 'navbar.html' %}
     
-    <div class="container">
-        <section class="room-page">
+    <div class="room-page">
+        <!-- Room Image Section -->
+        <div class="room-image">
+            <img src="{{ url_for('static', filename='assets/suite.jpg') }}" alt="Suite Room" />
+        </div>
 
-            <div class="room-image">
-                <img src="{{ url_for('static', filename='assets/suite.jpg') }}" alt="Suite Room" />
-            </div>
+        <!-- Room Title and Description -->
+        <h1>Suite Room</h1>
+        <p>Welcome to the Suite Room page. Here are the details:</p>
 
-            <h1>Suite Room</h1>
-            <p>Welcome to the Suite Room page. Here are the details:</p>
-            
-            <div class="room-details">
-                <ul>
-                    <li><strong>Price:</strong> $7500 per night</li>
-                    <li><strong>Features:</strong> Most luxurious, perfect for long stays with top-notch services.</li>
-                    <li><strong>Includes:</strong> Free Wi-Fi, air conditioning, personal concierge, luxury amenities.</li>
-                </ul>
-            </div>
+        <!-- Room Details -->
+        <div class="room-details">
+            <ul>
+                <li><strong>Price:</strong> $7500 per night</li>
+                <li><strong>Features:</strong> Most luxurious, perfect for long stays with top-notch services.</li>
+                <li><strong>Includes:</strong> Free Wi-Fi, air conditioning, personal concierge, luxury amenities.</li>
+            </ul>
+        </div>
 
-            <div class="action-link">
-                <p><a href="{{ url_for('user_bookings') }}" class="btn-link">Back to My Bookings</a></p>
-            </div>
-        </section>
+        <!-- Back to Bookings Link -->
+        <div class="action-link">
+            <p><a href="{{ url_for('user_bookings') }}" class="btn-link">Back to My Bookings</a></p>
+        </div>
     </div>
+
     {% include 'chatbot.html' %}
+    
     <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
 </body>
 </html>

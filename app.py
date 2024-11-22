@@ -1118,6 +1118,9 @@ def conference_inner():
 def conference_rooftop():
     return render_template('conference_rooftop.html')
 
+@app.route('/restaurant')
+def restaurant():
+    return render_template('restaurant.html')
 
 @app.route('/about')
 def about():
