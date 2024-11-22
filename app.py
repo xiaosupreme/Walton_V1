@@ -269,7 +269,7 @@ def manual_booking():
         'Family': 2500,
         'Deluxe': 5000,
         'Suite': 7500,
-        'Single': 800  
+        'Single': 1000  
     }
 
     if 'username' not in session or session['role'] != 'admin':
