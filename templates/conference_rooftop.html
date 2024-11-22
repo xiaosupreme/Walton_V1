@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conference Room A</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    {% include 'navbar.html' %}
+    
+    <div class="container">
+        <section class="room-page">
+
+            <div class="room-image">
+                <img src="{{ url_for('static', filename='assets/rooftop-view.jpeg') }}" alt="Conference Room A" />
+            </div>
+
+            <h1>Conference Room A</h1>
+            <p>Welcome to Conference Room A. Here are the details:</p>
+            
+            <div class="room-details">
+                <ul>
+                    <li><strong>Price:</strong> $200 per hour</li>
+                    <li><strong>Features:</strong> Rooftop view, ideal for corporate meetings, conferences, and events.</li>
+                    <li><strong>Includes:</strong> Projector, Wi-Fi, sound system, comfortable seating, and refreshments.</li>
+                </ul>
+            </div>
+
+            <div class="action-link">
+                <p><a href="{{ url_for('user_bookings') }}" class="btn-link">Back to My Bookings</a></p>
+            </div>
+        </section>
+    </div>
+    {% include 'chatbot.html' %}
+    <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
+</body>
+</html>

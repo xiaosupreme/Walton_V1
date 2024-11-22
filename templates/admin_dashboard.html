@@ -5,6 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* Style for the buttons container */
+        .button-container {
+            display: flex;
+            gap: 10px; /* Space between buttons */
+        }
+
+        .button-container form {
+            margin: 0; /* Remove any margin from forms */
+        }
+    </style>
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -36,12 +47,14 @@
                             <td>{{ request[6] }}</td> 
                             <td>
                                 {% if request[7] == 'enabled' %}
-                                    <form method="POST" action="{{ url_for('approve_booking', booking_request_id=request[0]) }}" style="display: inline;">
-                                        <button type="submit" class="btn btn-success">Approve</button>
-                                    </form>
-                                    <form method="POST" action="{{ url_for('reject_booking', booking_request_id=request[0]) }}" style="display: inline;">
-                                        <button type="submit" class="btn btn-danger">Reject</button>
-                                    </form>
+                                    <div class="button-container">
+                                        <form method="POST" action="{{ url_for('approve_booking', booking_request_id=request[0]) }}">
+                                            <button type="submit" class="btn btn-success">Approve</button>
+                                        </form>
+                                        <form method="POST" action="{{ url_for('reject_booking', booking_request_id=request[0]) }}">
+                                            <button type="submit" class="btn btn-danger">Reject</button>
+                                        </form>
+                                    </div>
                                 {% else %}
                                     <button class="btn btn-secondary" disabled>Approved</button>
                                 {% endif %}

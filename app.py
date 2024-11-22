@@ -1102,6 +1102,23 @@ def Suite_room():
     role = session.get('role', 'user')
     return render_template('suite_room.html', is_logged_in=is_logged_in, role=role)
 
+@app.route('/conference_beach')
+def conference_beach():
+    return render_template('conference_beach.html')
+
+@app.route('/conference_garden')
+def conference_garden():
+    return render_template('conference_garden.html')
+
+@app.route('/conference_inner')
+def conference_inner():
+    return render_template('conference_inner.html')
+
+@app.route('/conference_rooftop')
+def conference_rooftop():
+    return render_template('conference_rooftop.html')
+
+
 @app.route('/about')
 def about():
     return render_template('about.html')

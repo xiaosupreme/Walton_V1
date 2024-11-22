@@ -310,8 +310,8 @@ h1, h2, h3 {
     z-index: 1000;
 }
 
-/* Show submenu when hovering over the parent container */
-.submenu-container:hover .submenu {
+/* Show submenu only when hovering over the parent container */
+.submenu-container:hover > .submenu {
     display: block;
 }
 
@@ -328,6 +328,7 @@ h1, h2, h3 {
 .submenu div a:hover {
     background-color: #666;
 }
+
 
 /* Icon Styling */
 .navbar .icon {
@@ -692,4 +693,225 @@ tbody tr:hover {
 
 label{
     color:black;
+}
+
+/* Navbar Styles */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #A8E6CF; /* Light green background */
+    padding: 0 20px;
+    height: 60px;
+}
+
+.navbar-links {
+    display: flex;
+    align-items: center;
+}
+
+.navbar a, .navbar .icon {
+    color: #2D6A4F; /* Dark green for text (soft on the eyes) */
+    text-decoration: none;
+    padding: 14px 20px;
+    cursor: pointer;
+    margin-right: 10px; /* Space between links */
+}
+
+.navbar a:hover {
+    background-color: #C8E6C9; /* Slightly darker green on hover */
+    color: #2D6A4F; /* Keep dark green text on hover */
+}
+
+.navbar .logout {
+    margin-left: auto; /* Align logout to the right */
+}
+
+/* Submenu container to show submenu only when hovering over Rooms link */
+.submenu-container {
+    position: relative;
+}
+
+/* Hide the submenu by default */
+.submenu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #A8E6CF; /* Match the navbar background */
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    min-width: 200px;
+    z-index: 1000;
+}
+
+/* Show submenu only when hovering over the parent container */
+.submenu-container:hover > .submenu {
+    display: block;
+}
+
+.submenu div {
+    padding: 10px 15px;
+}
+
+.submenu div a {
+    color: #2D6A4F; /* Dark green for submenu text */
+    text-decoration: none;
+    display: block;
+}
+
+.submenu div a:hover {
+    background-color: #C8E6C9; /* Darker green for submenu items */
+}
+
+/* Icon Styling */
+.navbar .icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    position: relative;
+}
+
+.navbar img {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}
+
+/* Table Header */
+.table th {
+    background-color: #333;
+    color: white;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+/* General Text Color */
+body {
+    color: #333; /* Dark text color for good readability */
+}
+
+/* Content Text */
+.content h1, .content h2, .content h3 {
+    color: #2D6A4F; /* Dark green headers to match navbar */
+}
+
+span{
+    color:#2D6A4F;
+}
+
+p, li {
+    color: #555; /* Softer gray for paragraphs and list items */
+}
+
+/* Action Link - 'Back to My Bookings' */
+.room-page .btn-link {
+    font-size: 18px;
+    color: #2D6A4F; /* Dark green link color */
+    text-decoration: none;
+    font-weight: bold;
+    border: 2px solid #2D6A4F;
+    padding: 10px 20px;
+    border-radius: 25px;
+    transition: all 0.3s ease;
+}
+
+.room-page .btn-link:hover {
+    background-color: #2D6A4F; /* Dark green background on hover */
+    color: white;
+}
+
+/* Footer Section */
+footer {
+    text-align: center;
+    margin-top: 40px;
+    font-size: 14px;
+    color: #777;
+}
+
+/* Table Styling */
+.table {
+    width: 80%; 
+    margin: 20px auto;
+    border-collapse: collapse;
+    background-color: #222;
+    color: white;
+}
+
+/* Style for buttons inside the table */
+table .btn {
+    display: inline-block; /* Ensures the buttons appear beside each other */
+    margin-right: 10px; /* Adds some space between the buttons */
+}
+
+/* Optional: Add some styling for button layout */
+table td form {
+    display: inline-block; /* Make sure the form tags don't break to the next line */
+}
+
+
+.table th, .table td {
+    padding: 12px;
+    text-align: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.table tr:nth-child(even) {
+    background-color: #444;
+}
+
+.table tbody tr:hover {
+    background-color: white;
+    color: black;
+}
+
+/* Availability Text Color */
+.available {
+    color: #28a745; /* Green for available */
+}
+
+.unavailable {
+    color: #dc3545; /* Red for unavailable */
+}
+
+/* Button Styles */
+.btn-success {
+    background-color: #28a745;
+    color: white;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+}
+
+/* Parking and Transportation Section */
+.privacy-glass h1 {
+    color: #2D6A4F; /* Apply the color for the header */
+}
+
+.privacy-glass .text-content p {
+    color: #333; /* Apply the color for the paragraphs */
+}
+
+/* Pet Policy Section */
+.privacy-glass h1 {
+    color: #2D6A4F; /* Apply the color for the header */
+}
+
+.privacy-glass .text-content p {
+    color: #333; /* Apply the color for the paragraphs */
+}
+
+/* Discounts and Payment Options Section */
+.privacy-glass h1 {
+    color: #2D6A4F; /* Apply the color for the header */
+}
+
+.privacy-glass .text-content p {
+    color: #333; /* Apply the color for the paragraphs */
 }

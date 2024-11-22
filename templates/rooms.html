@@ -5,6 +5,91 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rooms</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <style>
+        /* Style the form inputs and labels */
+        #date-form {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+
+        #date-form label {
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 5px;
+        }
+
+        #date-form input {
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            width: 250px;
+        }
+
+        #date-form button {
+            padding: 10px 20px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 1rem;
+            cursor: pointer;
+        }
+
+        #date-form button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Table styling */
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        .table th, .table td {
+            padding: 12px;
+            text-align: left;
+            border: 1px solid #ddd;
+        }
+
+        /* Availability box styling */
+        .availability-box {
+            width: 40px;
+            height: 40px;
+            border-radius: 5px;
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        /* For Available status */
+        .available {
+            background-color: #28a745; /* Green for available rooms */
+        }
+
+        /* For Unavailable status */
+        .unavailable {
+            background-color: #dc3545; /* Red for unavailable rooms */
+        }
+
+        /* Improve responsiveness for smaller screens */
+        @media (max-width: 768px) {
+            #date-form {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            #date-form input, #date-form button {
+                width: 100%;
+            }
+
+            .table {
+                font-size: 0.9rem;
+            }
+        }
+    </style>
 </head>
 <body>
     {% include 'navbar.html' %}
@@ -14,16 +99,22 @@
 
             <!-- Date Picker Section -->
             <form id="date-form" method="GET">
-                <label for="start_date">Start Date:</label>
-                <input type="date" id="start_date" name="start_date" required>
-                <br>
-                <label for="end_date">End Date:</label>
-                <input type="date" id="end_date" name="end_date" required>
-                <br><br>
+                <div>
+                    <label for="start_date">Start Date:</label>
+                    <input type="date" id="start_date" name="start_date" required>
+                </div>
+
+                <div>
+                    <label for="end_date">End Date:</label>
+                    <input type="date" id="end_date" name="end_date" required>
+                </div>
+
                 <button type="submit">Check Availability</button>
             </form>
+
             <p>{{ date_range_message }}</p>
 
+            <!-- Rooms Table -->
             <table class="table">
                 <thead>
                     <tr>
@@ -39,16 +130,15 @@
                         <td>{{ room[2] }}</td>
                         <td>
                             {% if room[3] == 1 %}
-                            <span class="availability available">Available</span>
+                            <span class="availability-box available"></span>
                             {% else %}
-                            <span class="availability unavailable">Unavailable</span>
+                            <span class="availability-box unavailable"></span>
                             {% endif %}
                         </td>
                     </tr>
                     {% endfor %}
                 </tbody>
             </table>
-            
 
             <br>
             <a href="{{ url_for('admin_dashboard') }}">Back to Dashboard</a>

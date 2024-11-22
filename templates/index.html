@@ -4,94 +4,205 @@
     <title>Welcome</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
     <style>
-        /* Scoped styles for this page */
-        .privacy-glass h1 {
+        /* Basic styles */
+        .content {
+            max-width: 1200px;
+            margin: auto;
+            padding: 20px;
+        }
+
+        h1 {
             font-size: 2em;
             font-weight: bold;
-            margin: 40px 0 10px; /* Spacing between headings */
-            text-align: left;
-            border-bottom: 2px solid #e0e0e0; /* Optional: Underline to separate sections */
-            padding-bottom: 5px;
+            margin: 40px 0 10px;
+            color:#2D6A4F
         }
 
-        .privacy-glass p {
+        p {
             font-size: 1em;
             line-height: 1.6;
-            margin-bottom: 30px; /* Add spacing between sections */
+            margin-bottom: 30px;
         }
 
-        .conference-rooms {
+        /* Initial state for scroll reveal */
+        .reveal {
+            opacity: 0;
+            transform: translateY(20px);
+            transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+        }
+
+        /* When the element is visible */
+        .reveal.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* Shared styles for sections with images */
+        .section-with-image {
             display: flex;
+            align-items: center;
             gap: 20px;
             margin-top: 20px;
             flex-wrap: wrap;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .conference-rooms .room {
-            flex: 1 1 200px; /* Flex item basis with a minimum width */
+        .section-with-image img {
+            flex: 1 1 300px;
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-with-image .text-content {
+            flex: 2 1 500px;
+        }
+
+        /* Room and Conference Room Layout */
+        .rooms, .conference-rooms {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .rooms .room, .conference-rooms .room {
+            flex: 1 1 300px;
             padding: 15px;
             border: 1px solid #e0e0e0;
             border-radius: 8px;
             background-color: #f9f9f9;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
             text-align: center;
+            margin-bottom: 20px;
         }
 
-        /* Scoped styles for the images of Room A to D */
-        .conference-rooms .room img {
-            width: 100%; /* Images will take full width of their container */
-            height: 100px; /* Adjust height to 100px (half the original height) */
-            object-fit: cover; /* Ensures the image covers the area without distortion */
+        .room img, .conference-rooms .room img {
+            width: 100%;
+            height: 150px; /* Set a fixed height for consistency */
+            object-fit: cover;
             border-radius: 8px;
-            margin-bottom: 10px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
-        .conference-rooms .room h2 {
-            font-size: 1.2em;
-            margin-bottom: 10px;
+        /* Privacy Glass Styling */
+        .privacy-glass {
+            background: rgba(255, 255, 255, 0.8); /* Semi-transparent white background */
+            border-radius: 8px; /* Rounded corners */
+            padding: 20px; /* Padding around the content */
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Box shadow for better visual effect */
+            margin-top: 20px; /* Consistent margin for spacing between sections */
         }
 
-        .conference-rooms .room p {
-            font-size: 1em;
+        /* Adjust for sections with images */
+        .section-with-image {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+            padding: 20px;
+            background-color: #f9f9f9;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
         }
 
+        /* Optional: If you need to make sure content inside has space from the edge */
+        .privacy-glass .text-content {
+            margin-right: 20px;
+        }
+
+                /* Ensure images are aligned across all sections */
+        .privacy-glass img {
+            max-width: 100%; /* Allow image to scale to fit container width */
+            height: auto; /* Maintain aspect ratio */
+            border-radius: 8px; /* Keep rounded corners */
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Add shadow for consistency */
+        }
+
+        /* Specific adjustments for Parking, Pet Policy, and Discounts sections */
+        .privacy-glass img[src*="parking.jpg"], 
+        .privacy-glass img[src*="pet-policy.jpg"], 
+        .privacy-glass img[src*="discounts.png"] {
+            flex: 1 1 300px; /* Set images to a specific size */
+            max-height: 200px; /* Adjust the height for consistency */
+            object-fit: cover; /* Ensure images fit their containers */
+        }
+
+        /* Adjust for smaller screens */
         @media (max-width: 768px) {
-            .conference-rooms {
-                flex-direction: column; /* Stack columns on smaller screens */
+            .rooms .room, .conference-rooms .room {
+                flex: 1 1 100%; /* Stack elements vertically on small screens */
+            }
+
+            .rooms .room img, .conference-rooms .room img {
+                height: 120px; /* Adjust image height for mobile */
             }
         }
+
+        /* Larger screen adjustments */
+        @media (min-width: 1024px) {
+            .rooms .room, .conference-rooms .room {
+                flex: 1 1 300px; /* Larger containers for larger screens */
+            }
+        }
+
+
     </style>
 </head>
 <body>
     {% include 'navbar.html' %}
 
     <div class="content">
-        <div class="privacy-glass">
+        <!-- Room Information Section -->
+        <div class="privacy-glass reveal">
             <h1>Room Information</h1>
-            <p>Single, Double, Family, Deluxe, Suite</p>
+            <div class="rooms">
+                <div class="room">
+                    <img src="{{ url_for('static', filename='assets/standard.jpg') }}" alt="Standard Room">
+                    <h2>Standard Room</h2>
+                    <p>Perfect for solo travelers or a short stay.</p>
+                </div>
+                <div class="room">
+                    <img src="{{ url_for('static', filename='assets/double.jpg') }}" alt="Double Room">
+                    <h2>Double Room</h2>
+                    <p>Ideal for couples or friends traveling together.</p>
+                </div>
+                <div class="room">
+                    <img src="{{ url_for('static', filename='assets/family.jpeg') }}" alt="Family Room">
+                    <h2>Family Room</h2>
+                    <p>Spacious and comfortable for families.</p>
+                </div>
+                <div class="room">
+                    <img src="{{ url_for('static', filename='assets/deluxe.jpg') }}" alt="Deluxe Room">
+                    <h2>Deluxe Room</h2>
+                    <p>Luxurious room with premium amenities.</p>
+                </div>
+                <div class="room">
+                    <img src="{{ url_for('static', filename='assets/suite.jpg') }}" alt="Suite Room">
+                    <h2>Suite Room</h2>
+                    <p>The ultimate comfort and luxury for your stay.</p>
+                </div>
+            </div>
+        </div>
 
+        <!-- Check-In and Amenities Section -->
+        <div class="privacy-glass reveal">
             <h1>Check-In and Amenities</h1>
-            <p>
-                Check-in: Flexible, 24 hours + 1-hour allowance.
-                <br>Complimentary breakfast available, with today's menu displayed.
-            </p>
+            <div class="section-with-image">
+                <div class="text-content">
+                    <p>Check-in: Flexible, 24 hours + 1-hour allowance.</p>
+                    <p>Complimentary breakfast available, with today's menu displayed.</p>
+                </div>
+                <img src="{{ url_for('static', filename='assets/checkin.png') }}" alt="Check-In">
+            </div>
+        </div>
 
-            <h1>Restaurant</h1>
-            <p>Menu options for breakfast, lunch, and dinner.</p>
-
-            <h1>Parking and Transportation</h1>
-            <p>
-                Secure parking available. (Self-Parking and Valet). 
-                <br>Assistance for arranging airport rides is offered.
-            </p>
-
-            <h1>Amenities and Facilities</h1>
-            <p>
-                Laundry facilities (Self-Service and Dry Cleaning).
-                <br>Pool access.
-                <br>Nearby attractions: Mangrove Beach, Boardwalk, Sun Roof Mall, beachside restaurants.
-            </p>
-
+        <!-- Conference Rooms Section -->
+        <div class="privacy-glass reveal">
             <h1>Conference Rooms</h1>
             <div class="conference-rooms">
                 <div class="room">
@@ -110,30 +221,103 @@
                     <p>Garden view</p>
                 </div>
                 <div class="room">
-                    <img src="{{ url_for('static', filename='assets/inner-view.png') }}" alt="InnerCorp View">
+                    <img src="{{ url_for('static', filename='assets/inner-view.png') }}" alt="Inner Corporate View">
                     <h2>Room D</h2>
                     <p>Inner corporate style</p>
                 </div>
             </div>
-
-            <h1>Pet Policy</h1>
-            <p>
-                Pets allowed in Family, Deluxe, and Suite rooms with a cleaning fee and refundable security deposit. 
-                </br>Pets must be potty-trained or wear diapers.
-            </p>
-
-            <h1>Discounts and Payment Options</h1>
-            <p>
-                First-time and Seasonal Discounts. Payment accepted via Cash, Credit Cards, Online Banking, PayPal, Visa. 
-                </br>Installments for longer stays in Deluxe and Suite rooms.
-            </p>
         </div>
-    </div>
+
+        <!-- Restaurant Section -->
+        <div class="privacy-glass reveal">
+            <h1>Restaurant</h1>
+            <div class="section-with-image">
+                <div class="text-content">
+                    <p>Menu options for breakfast, lunch, and dinner.</p>
+                </div>
+                <img src="{{ url_for('static', filename='assets/restaurant.png') }}" alt="Restaurant">
+            </div>
+        </div>
+
+        <!-- Amenities and Facilities Section -->
+        <div class="privacy-glass reveal">
+            <h1>Amenities and Facilities</h1>
+            <div class="section-with-image">
+                <div class="text-content">
+                    <p>Laundry facilities (Self-Service and Dry Cleaning).</p>
+                    <p>Pool access.</p>
+                    <p>Nearby attractions: Mangrove Beach, Boardwalk, Sun Roof Mall, beachside restaurants.</p>
+                </div>
+                <img src="{{ url_for('static', filename='assets/amenities.jpg') }}" alt="Amenities">
+            </div>
+            </div>
+        </div>
+
+
+        <!-- Parking and Transportation Section -->
+        <div class="privacy-glass reveal">
+            <h1>Parking and Transportation</h1>
+            <div class="section-with-image">
+                <div class="text-content">
+                    <p>Secure parking available. (Self-Parking and Valet).</p>
+                    <p>Assistance for arranging airport rides is offered.</p>
+                </div>
+                <img src="{{ url_for('static', filename='assets/parking.jpg') }}" alt="Parking">
+            </div>
+        </div>
+        
+
+        <!-- Pet Policy Section -->
+        <div class="privacy-glass reveal">
+            <h1>Pet Policy</h1>
+            <div class="section-with-image">
+                <div class="text-content">
+                    <p>Pets allowed in Family, Deluxe, and Suite rooms with a cleaning fee and refundable security deposit.</p>
+                    <p>Pets must be potty-trained or wear diapers.</p>
+                </div>
+                <img src="{{ url_for('static', filename='assets/pet-policy.jpg') }}" alt="Pet Policy">
+            </div>
+        </div>
+
+        <!-- Discounts and Payment Options Section -->
+        <div class="privacy-glass reveal">
+            <h1>Discounts and Payment Options</h1>
+            <div class="section-with-image">
+                <div class="text-content">
+                    <p>First-time and Seasonal Discounts.</p>
+                    <p>Payment accepted via Cash, Credit Cards, Online Banking, PayPal, Visa.</p>
+                    <p>Installments for longer stays in Deluxe and Suite rooms.</p>
+                </div>
+                <img src="{{ url_for('static', filename='assets/discounts.png') }}" alt="Discounts">
+            </div>
+        </div>
+
+
 
     {% include 'chatbot.html' %}
-
     <button id="back-to-top" title="Go to top">&#8593; Back to Top</button>
     <script src="{{ url_for('static', filename='js/back-to-top.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/backgroundChanger.js') }}"></script>
+
+    <script>
+        // Scroll Reveal Script
+        const revealElements = document.querySelectorAll('.reveal');
+        function revealOnScroll() {
+            const windowHeight = window.innerHeight;
+            const revealPoint = 150;
+
+            revealElements.forEach((el) => {
+                const elementTop = el.getBoundingClientRect().top;
+
+                if (elementTop < windowHeight - revealPoint) {
+                    el.classList.add('visible');
+                } else {
+                    el.classList.remove('visible');
+                }
+            });
+        }
+
+        window.addEventListener('scroll', revealOnScroll);
+        revealOnScroll(); // Trigger on load
+    </script>
 </body>
 </html>
